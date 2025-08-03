@@ -1,5 +1,9 @@
 function App() {
-  return <span>App</span>;
+  return (
+    <div>
+      <span className="flex items-center justify-center">App</span>
+    </div>
+  );
 }
 
 export { App };
