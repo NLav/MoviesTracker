@@ -27,11 +27,13 @@ function Menu({ options }: MenuProperties) {
 
   const getLinkReference = useCallback(
     (link: string) => {
-      if (currentPathname === link || currentHoverLink === link) {
-        return activeLinkReference;
+      if (currentHoverLink && link !== currentHoverLink) {
+        return;
       }
 
-      return;
+      if (link === currentHoverLink || link === currentPathname) {
+        return activeLinkReference;
+      }
     },
     [currentHoverLink, currentPathname]
   );
@@ -41,8 +43,6 @@ function Menu({ options }: MenuProperties) {
     if (!currentActiveLink) return;
 
     const activeLinkRects = currentActiveLink.getClientRects()[0];
-
-    console.log(activeLinkRects);
 
     setActiveLinkIndicatorStyle({
       top: activeLinkRects.bottom,
@@ -70,7 +70,6 @@ function Menu({ options }: MenuProperties) {
           </Link>
         );
       })}
-      {String(currentPathname)} {String(currentHoverLink)}
     </div>
   );
 }
