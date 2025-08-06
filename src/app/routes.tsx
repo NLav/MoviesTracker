@@ -1,6 +1,7 @@
+import { createBrowserRouter, Navigate } from "react-router-dom";
+
 import { MainLayout } from "@/presentation/layouts";
 import { baseSubPath } from "@/shared/constants";
-import { createBrowserRouter, Navigate } from "react-router-dom";
 
 const routes = createBrowserRouter([
   {

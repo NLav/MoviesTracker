@@ -1,17 +1,17 @@
 import js from "@eslint/js";
+import { globalIgnores } from "eslint/config";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import eslintPluginReact from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
-import { globalIgnores } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config([
   globalIgnores(["dist"]),
   {
-    files: ["**/*.{ts,tsx}"],
     ignores: ["vite-env.d.ts"],
     extends: [
       js.configs.recommended,
@@ -22,6 +22,9 @@ export default tseslint.config([
       eslintPluginReact.configs.flat.recommended,
       eslintPluginUnicorn.configs.all,
     ],
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -38,6 +41,8 @@ export default tseslint.config([
       "react/jsx-no-literals": "off",
       "react/jsx-one-expression-per-line": "off",
       "react/react-in-jsx-scope": "off",
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
       "unicorn/filename-case": [
         "error",
         {
