@@ -56,15 +56,16 @@ function Menu({ options }: MenuProperties) {
       <div
         className="bg-secondary-500 pointer-events-none fixed h-1 transition-all"
         style={activeLinkIndicatorStyle}
-      ></div>
+      />
+
       {options.map((option) => {
         return (
           <Link
             key={option.label}
-            ref={getLinkReference(option.link)}
-            to={option.link}
             onMouseEnter={() => setCurrentHoverLink(option.link)}
             onMouseLeave={() => setCurrentHoverLink(undefined)}
+            ref={getLinkReference(option.link)}
+            to={option.link}
           >
             {option.label}
           </Link>
