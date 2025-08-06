@@ -52,6 +52,7 @@ export default tseslint.config([
           },
         },
       ],
+      "unicorn/no-keyword-prefix": "off",
     },
   },
 ]);
