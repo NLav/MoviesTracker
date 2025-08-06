@@ -19,7 +19,7 @@ export default tseslint.config([
       eslintPluginPrettierRecommended,
       reactHooks.configs["recommended-latest"],
       reactRefresh.configs.vite,
-      eslintPluginReact.configs.flat.all,
+      eslintPluginReact.configs.flat.recommended,
       eslintPluginUnicorn.configs.all,
     ],
     languageOptions: {
