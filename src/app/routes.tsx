@@ -12,11 +12,29 @@ const routes = createBrowserRouter([
         element: <Navigate to={`${baseSubPath}/genders`} />,
       },
       {
+        path: "directors",
+        children: [
+          {
+            index: true,
+            element: <span>directors</span>,
+          },
+        ],
+      },
+      {
         path: "genders",
         children: [
           {
             index: true,
             element: <span>genders</span>,
+          },
+        ],
+      },
+      {
+        path: "movies",
+        children: [
+          {
+            index: true,
+            element: <span>movies</span>,
           },
         ],
       },
