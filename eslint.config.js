@@ -1,5 +1,6 @@
 import js from "@eslint/js";
 import { globalIgnores } from "eslint/config";
+import eslintPluginImport from "eslint-plugin-import";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import eslintPluginReact from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -9,6 +10,7 @@ import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
+// eslint-disable-next-line import/no-default-export
 export default tseslint.config([
   globalIgnores(["dist"]),
   {
@@ -19,6 +21,7 @@ export default tseslint.config([
       eslintPluginPrettierRecommended,
       reactHooks.configs["recommended-latest"],
       reactRefresh.configs.vite,
+      eslintPluginImport.flatConfigs.react,
       eslintPluginReact.configs.flat.all,
       eslintPluginUnicorn.configs.all,
     ],
@@ -35,6 +38,7 @@ export default tseslint.config([
       },
     },
     rules: {
+      "import/no-default-export": "error",
       "prettier/prettier": "error",
       "react/forbid-component-props": [
         "error",
