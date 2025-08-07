@@ -36,7 +36,18 @@ export default tseslint.config([
     },
     rules: {
       "prettier/prettier": "error",
-      "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
+      "react/forbid-component-props": [
+        "error",
+        {
+          forbid: [
+            {
+              propName: "className",
+              allowedFor: ["Link"],
+            },
+          ],
+        },
+      ],
+      "react/jsx-filename-extension": ["warn", { extensions: [".tsx"] }],
       "react/jsx-indent": "off",
       "react/jsx-indent-props": "off",
       "react/jsx-no-bind": "off",

@@ -52,7 +52,7 @@ function Menu({ options }: MenuProperties) {
   }, [currentPathname, currentHoverLink]);
 
   return (
-    <div className="flex gap-4 p-6">
+    <div className="flex p-6">
       <div
         className="bg-secondary-500 pointer-events-none fixed h-1 transition-all"
         style={activeLinkIndicatorStyle}
@@ -61,6 +61,7 @@ function Menu({ options }: MenuProperties) {
       {options.map((option) => {
         return (
           <Link
+            className="px-2"
             key={option.label}
             onMouseEnter={() => setCurrentHoverLink(option.link)}
             onMouseLeave={() => setCurrentHoverLink(undefined)}
