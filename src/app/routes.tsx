@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { MainLayout } from "@/presentation/layouts";
+import { Genres } from "@/presentation/pages";
 import { baseSubPath } from "@/shared/constants";
 
 const routes = createBrowserRouter([
@@ -26,7 +27,7 @@ const routes = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <span>genres</span>,
+            element: <Genres />,
           },
         ],
       },
