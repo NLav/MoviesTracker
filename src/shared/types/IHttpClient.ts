@@ -3,8 +3,8 @@ type HttpMethod = "GET";
 export interface HttpRequest {
   method: HttpMethod;
   url: string;
-  headers?: Record<string, string>;
-  params?: Record<string, string>;
+  headers?: Record<string, string | number>;
+  params?: Record<string, string | number>;
   body?: unknown;
   signal: AbortSignal;
 }

@@ -1,25 +1,36 @@
-import type { IPagination } from "@/shared/types";
+import type { AxiosError } from "axios";
 
-import type { GenreEntity } from "../entities";
+import type { ILoadAllGenreInput, LoadAllGenreOutput } from "@/domain/entities";
+import type { HttpClient } from "@/shared/types";
 
 export class GenreRepository {
-  public async loadAll() //  { parameters }: ILoadAllGenreInput
-  : Promise<IPagination<GenreEntity>> {
-    return {
-      items: [
-        {
-          id: "aaaaa",
-          name: "Terror",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          deletedAt: undefined,
+  private constructor(private readonly HttpClient: HttpClient) {}
+
+  public static create(HttpClient: HttpClient) {
+    return new GenreRepository(HttpClient);
+  }
+
+  public async loadAll({
+    paginationParameters,
+    signal,
+  }: ILoadAllGenreInput): Promise<LoadAllGenreOutput> {
+    try {
+      const genresRequest = await this.HttpClient.request<LoadAllGenreOutput>({
+        method: "GET",
+        url: "/genres",
+        signal,
+        headers: {
+          "rest-page": paginationParameters.page,
+          "rest-limit": paginationParameters.limit,
+          "rest-mode": paginationParameters.mode,
         },
-      ],
-      meta: {
-        currentPage: 1,
-        limit: 10,
-        totalPages: 5,
-      },
-    };
+      });
+
+      return genresRequest.body;
+    } catch (error) {
+      const currentError = error as AxiosError;
+
+      throw new Error(currentError.message);
+    }
   }
 }
