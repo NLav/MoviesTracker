@@ -1,29 +1,31 @@
 import z from "zod";
 
+import type { IPaginationParameters } from "@/shared/types";
+
 const GenreSchema = z.object({
-  id: z.string(),
+  id: z.uuid(),
   name: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  deletedAt: z.date().nullable(),
+  deletedAt: z.date().optional(),
 });
 
 type GenreProperties = z.infer<typeof GenreSchema>;
+
+export interface ILoadAllGenreInput {
+  parameters: IPaginationParameters;
+}
 
 export class GenreEntity implements GenreProperties {
   id!: string;
   name!: string;
   createdAt!: Date;
   updatedAt!: Date;
-  deletedAt!: Date | null;
+  deletedAt!: Date | undefined;
 
   constructor(properties: GenreProperties) {
     const parsedProperties = GenreSchema.parse(properties);
     Object.assign(this, parsedProperties);
-  }
-
-  isDeleted(): boolean {
-    return this.deletedAt !== null;
   }
 
   static with(genre: GenreProperties): GenreEntity {
