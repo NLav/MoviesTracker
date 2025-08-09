@@ -1,19 +1,19 @@
 type HttpMethod = "GET";
 
-export interface HttpRequest {
+export type HttpRequest = {
   method: HttpMethod;
   url: string;
   headers?: Record<string, string | number>;
   params?: Record<string, string | number>;
   body?: unknown;
   signal: AbortSignal;
-}
+};
 
-export interface HttpResponse<T> {
+export type HttpResponse<T> = {
   statusCode: number;
   body: T;
-}
+};
 
-export interface HttpClient {
+export type HttpClient = {
   request<T>(data: HttpRequest): Promise<HttpResponse<T>>;
-}
+};

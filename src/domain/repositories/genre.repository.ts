@@ -1,6 +1,6 @@
 import type { AxiosError } from "axios";
 
-import type { ILoadAllGenreInput, LoadAllGenreOutput } from "@/domain/entities";
+import type { LoadAllGenreInput, LoadAllGenreOutput } from "@/domain/entities";
 import type { HttpClient } from "@/shared/types";
 
 export class GenreRepository {
@@ -13,7 +13,7 @@ export class GenreRepository {
   public async loadAll({
     paginationParameters,
     signal,
-  }: ILoadAllGenreInput): Promise<LoadAllGenreOutput> {
+  }: LoadAllGenreInput): Promise<LoadAllGenreOutput> {
     try {
       const genresRequest = await this.HttpClient.request<LoadAllGenreOutput>({
         method: "GET",

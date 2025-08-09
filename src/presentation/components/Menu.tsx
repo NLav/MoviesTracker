@@ -7,10 +7,10 @@ import {
 } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import type { IMenuOption } from "@/shared/types";
+import type { MenuOption } from "@/shared/types";
 
 type MenuProperties = {
-  options: IMenuOption[];
+  options: MenuOption[];
 };
 
 function Menu({ options }: MenuProperties) {

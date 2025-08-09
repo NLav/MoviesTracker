@@ -1,6 +1,6 @@
 import z from "zod";
 
-import type { IPagination, IPaginationParameters } from "@/shared/types";
+import type { Pagination, PaginationParameters } from "@/shared/types";
 
 const GenreSchema = z.object({
   id: z.uuid(),
@@ -12,12 +12,12 @@ const GenreSchema = z.object({
 
 type GenreProperties = z.infer<typeof GenreSchema>;
 
-export interface ILoadAllGenreInput {
-  paginationParameters: IPaginationParameters;
+export type LoadAllGenreInput = {
+  paginationParameters: PaginationParameters;
   signal: AbortSignal;
-}
+};
 
-export type LoadAllGenreOutput = IPagination<GenreEntity>;
+export type LoadAllGenreOutput = Pagination<GenreEntity>;
 
 export class GenreEntity implements GenreProperties {
   id!: string;

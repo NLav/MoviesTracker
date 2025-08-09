@@ -1,4 +1,4 @@
-export interface IMenuOption {
+export type MenuOption = {
   label: string;
   link: string;
-}
+};

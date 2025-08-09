@@ -1,18 +1,18 @@
 type PaginationModes = "paginate" | "list";
 
-interface IPaginationMeta {
+type PaginationMeta = {
   currentPage: number;
   totalPages: number;
   limit: number;
-}
+};
 
-export interface IPaginationParameters {
+export type PaginationParameters = {
   page: number;
   mode: PaginationModes;
   limit: number;
-}
+};
 
-export interface IPagination<T> {
+export type Pagination<T> = {
   items: T[];
-  meta: IPaginationMeta;
-}
+  meta: PaginationMeta;
+};
