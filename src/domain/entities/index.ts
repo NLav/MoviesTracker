@@ -1,1 +1,1 @@
-export * from "./genre.entity.ts";
+export * from "./genre.entity";
