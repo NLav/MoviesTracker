@@ -65,8 +65,7 @@ export default tseslint.config([
         "error",
         {
           cases: {
-            pascalCase: true,
-            camelCase: true,
+            kebabCase: true,
           },
         },
       ],
