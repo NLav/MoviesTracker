@@ -1,1 +1,1 @@
-export * from "./baseSubPath";
+export * from "./base-sub-path";

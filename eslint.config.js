@@ -38,6 +38,7 @@ export default tseslint.config([
       },
     },
     rules: {
+      "@typescript-eslint/no-explicit-any": "off",
       "import/no-default-export": "error",
       "prettier/prettier": "error",
       "react/forbid-component-props": [
