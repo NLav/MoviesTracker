@@ -5,6 +5,7 @@ import type {
   LoadAllGenres,
   LoadAllGenresModel,
 } from "@/domain/usecases/genres";
+import { Genre } from "@/validation/models";
 
 export class RemoteLoadAllGenres implements LoadAllGenres {
   constructor(
@@ -22,7 +23,7 @@ export class RemoteLoadAllGenres implements LoadAllGenres {
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok: {
-        return allGenres.map((genre: GenreModel) => genre);
+        return allGenres.map((genre: GenreModel) => new Genre(genre));
       }
       case HttpStatusCode.noContent: {
         return [];
