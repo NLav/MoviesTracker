@@ -55,11 +55,13 @@ export default tseslint.config([
       "react/jsx-filename-extension": ["warn", { extensions: [".tsx"] }],
       "react/jsx-indent": "off",
       "react/jsx-indent-props": "off",
+      "react/jsx-max-props-per-line": "off",
       "react/jsx-no-bind": "off",
       "react/jsx-no-literals": "off",
       "react/jsx-one-expression-per-line": "off",
       "react/prefer-read-only-props": "off",
       "react/react-in-jsx-scope": "off",
+      "react/require-default-props": "off",
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
       "unicorn/filename-case": [
