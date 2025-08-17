@@ -4,6 +4,7 @@ import type { GenreModel } from "@/domain/models";
 import type {
   LoadAllGenres,
   LoadAllGenresModel,
+  LoadAllGenresParameters,
 } from "@/domain/usecases/genres";
 import { Genre } from "@/validation/models";
 
@@ -13,10 +14,13 @@ export class RemoteLoadAllGenres implements LoadAllGenres {
     private readonly httpClient: HttpClient
   ) {}
 
-  async loadAll(): Promise<LoadAllGenresModel[]> {
+  async loadAll(
+    parameters: LoadAllGenresParameters
+  ): Promise<LoadAllGenresModel[]> {
     const httpResponse = await this.httpClient.request({
       url: this.url,
       method: "GET",
+      parameters,
     });
 
     const allGenres = httpResponse.body ?? [];
