@@ -64,7 +64,7 @@ function Menu({ options }: MenuProperties) {
       {options.map((option) => {
         return (
           <Link
-            className="px-2 font-semibold text-neutral-50"
+            className="px-2 font-semibold"
             key={option.label}
             onMouseEnter={() => setCurrentHoverLink(option.link)}
             onMouseLeave={() => setCurrentHoverLink(undefined)}
