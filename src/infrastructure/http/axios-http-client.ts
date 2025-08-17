@@ -21,6 +21,7 @@ export class AxiosHttpCLient implements HttpClient {
         method: requestData.method,
         data: requestData.body,
         headers: requestData.headers,
+        params: requestData.parameters,
       });
     } catch (error) {
       axiosResponse = (error as AxiosError).response!;

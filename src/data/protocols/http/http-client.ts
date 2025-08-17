@@ -3,6 +3,7 @@ export type HttpRequest = {
   method: HttpMethod;
   body?: any;
   headers?: Record<string, string | number>;
+  parameters?: any;
 };
 
 export interface HttpClient<R = any> {
