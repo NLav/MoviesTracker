@@ -29,7 +29,19 @@
 }
 
 @layer base {
+  * {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  *:disabled {
+    cursor: not-allowed;
+  }
+
   button {
     cursor: pointer;
+  }
+
+  h1 {
+    font-size: 2rem;
   }
 }
