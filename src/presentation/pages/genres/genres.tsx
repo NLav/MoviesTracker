@@ -5,6 +5,7 @@ import type {
   LoadAllGenresModel,
 } from "@/domain/usecases/genres";
 import { Input } from "@/presentation/components";
+import { searchDelay } from "@/shared/constants";
 
 import { GenreCard, GenreCardSkeleton } from "./components";
 
@@ -14,8 +15,8 @@ type GenresProperties = {
 
 function Genres({ loadAllGenres }: GenresProperties) {
   const [genres, setGenres] = useState<LoadAllGenresModel[]>([]);
-  const [searchValue, setSearchValue] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
     loadAllGenres
@@ -34,6 +35,7 @@ function Genres({ loadAllGenres }: GenresProperties) {
       <h1 className="font-semibold">Gêneros</h1>
 
       <Input
+        delay={searchDelay}
         disabled={isLoading}
         onChange={(event) => setSearchValue(event.target.value)}
         placeholder="Insira a pesquisa"

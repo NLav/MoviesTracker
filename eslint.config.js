@@ -52,6 +52,7 @@ export default tseslint.config([
           ],
         },
       ],
+      "react/jsx-curly-newline": "off",
       "react/jsx-filename-extension": ["warn", { extensions: [".tsx"] }],
       "react/jsx-indent": "off",
       "react/jsx-indent-props": "off",
