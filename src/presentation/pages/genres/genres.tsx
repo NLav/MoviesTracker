@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 import type {
-  LoadAllGenres,
-  LoadAllGenresModel,
+  LoadPaginatedGenres,
+  LoadPaginatedGenresModel,
 } from "@/domain/usecases/genres";
 import { Input } from "@/presentation/components";
 import { searchDelay } from "@/shared/constants";
@@ -10,17 +10,17 @@ import { searchDelay } from "@/shared/constants";
 import { GenreCard, GenreCardSkeleton } from "./components";
 
 type GenresProperties = {
-  loadAllGenres: LoadAllGenres;
+  loadPaginatedGenres: LoadPaginatedGenres;
 };
 
-function Genres({ loadAllGenres }: GenresProperties) {
-  const [genres, setGenres] = useState<LoadAllGenresModel[]>([]);
+function Genres({ loadPaginatedGenres }: GenresProperties) {
+  const [genres, setGenres] = useState<LoadPaginatedGenresModel>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
-    loadAllGenres
-      .loadAll({ searchValue })
+    loadPaginatedGenres
+      .loadPaginated({ page: 2, limit: 3 })
       .then((response) => {
         setGenres(response);
         setIsLoading(false);
@@ -28,7 +28,7 @@ function Genres({ loadAllGenres }: GenresProperties) {
       .catch((error) => {
         alert(error);
       });
-  }, [loadAllGenres, searchValue]);
+  }, [loadPaginatedGenres, searchValue]);
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -49,7 +49,7 @@ function Genres({ loadAllGenres }: GenresProperties) {
               // eslint-disable-next-line react/no-array-index-key
               <GenreCardSkeleton key={index} />
             ))
-          : genres.map((genre) => (
+          : genres?.items.map((genre) => (
               <GenreCard genreDetails={genre} key={genre.id} />
             ))}
       </div>
