@@ -57,7 +57,7 @@ function Menu({ options }: MenuProperties) {
   return (
     <div className="flex p-6">
       <div
-        className="bg-secondary-500 pointer-events-none fixed h-1 transition-all"
+        className="bg-secondary pointer-events-none fixed h-1 transition-all"
         style={activeLinkIndicatorStyle}
       />
 

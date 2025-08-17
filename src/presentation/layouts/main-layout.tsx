@@ -4,7 +4,7 @@ import { Menu } from "@/presentation/components";
 
 function MainLayout() {
   return (
-    <div className="bg-primary-600 h-screen w-screen">
+    <div className="bg-primary h-screen w-screen">
       <Menu
         options={[
           {
