@@ -4,7 +4,7 @@ import { Menu } from "@/presentation/components";
 
 function MainLayout() {
   return (
-    <div className="bg-primary h-screen w-screen">
+    <div className="bg-primary flex h-screen w-screen flex-col">
       <Menu
         options={[
           {
@@ -22,7 +22,7 @@ function MainLayout() {
         ]}
       />
 
-      <span className="flex h-full rounded-4xl bg-neutral-50 p-8 shadow-inner shadow-neutral-500 dark:bg-neutral-900">
+      <span className="flex h-full rounded-t-4xl bg-neutral-50 p-8 shadow-inner shadow-neutral-500 dark:bg-neutral-900">
         <Outlet />
       </span>
     </div>
