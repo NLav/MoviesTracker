@@ -29,8 +29,8 @@
   --color-secondary-900: #1e1545;
   --color-secondary-950: #0e081d;
 
-  --color-primary: var(--color-primary-400);
-  --color-secondary: var(--color-secondary-400);
+  --color-primary: var(--color-primary-300);
+  --color-secondary: var(--color-secondary-300);
 }
 
 @layer base {
@@ -38,13 +38,14 @@
     @apply font-default text-neutral-900;
 
     @variant dark {
-      --color-primary: var(--color-primary-600);
-      --color-secondary: var(--color-secondary-600);
+      --color-primary: var(--color-primary-700);
+      --color-secondary: var(--color-secondary-700);
 
       @apply text-neutral-50;
     }
   }
 
+  button:disabled,
   input:disabled {
     @apply cursor-not-allowed;
   }
