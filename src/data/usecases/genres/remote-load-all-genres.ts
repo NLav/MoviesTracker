@@ -1,6 +1,5 @@
 import { type HttpClient, HttpStatusCode } from "@/data/protocols/http";
 import { UnexpectedError } from "@/domain/errors";
-import type { GenreModel } from "@/domain/models";
 import type {
   LoadAllGenres,
   LoadAllGenresModel,
@@ -16,18 +15,18 @@ export class RemoteLoadAllGenres implements LoadAllGenres {
 
   async loadAll(
     parameters: LoadAllGenresParameters
-  ): Promise<LoadAllGenresModel[]> {
+  ): Promise<LoadAllGenresModel> {
     const httpResponse = await this.httpClient.request({
       url: this.url,
       method: "GET",
       parameters,
     });
 
-    const allGenres = httpResponse.body ?? [];
+    const allGenres = (httpResponse.body as LoadAllGenresModel) ?? [];
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok: {
-        return allGenres.map((genre: GenreModel) => new Genre(genre));
+        return allGenres.map((genre) => new Genre(genre));
       }
       case HttpStatusCode.noContent: {
         return [];
