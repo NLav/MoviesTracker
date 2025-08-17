@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 
+import { type PaginationParameters } from "@/data/dtos";
 import type {
   LoadPaginatedGenres,
   LoadPaginatedGenresModel,
 } from "@/domain/usecases/genres";
-import { Input } from "@/presentation/components";
+import { Input, Pagination } from "@/presentation/components";
 import { searchDelay } from "@/shared/constants";
 
 import { GenreCard, GenreCardSkeleton } from "./components";
@@ -15,12 +16,17 @@ type GenresProperties = {
 
 function Genres({ loadPaginatedGenres }: GenresProperties) {
   const [genres, setGenres] = useState<LoadPaginatedGenresModel>();
+  const [paginationParameters, setPaginationParameters] =
+    useState<PaginationParameters>({
+      page: 1,
+      limit: 10,
+    });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
     loadPaginatedGenres
-      .loadPaginated({ page: 2, limit: 3 })
+      .loadPaginated({ page: 1, limit: 1 })
       .then((response) => {
         setGenres(response);
         setIsLoading(false);
@@ -49,10 +55,26 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
               // eslint-disable-next-line react/no-array-index-key
               <GenreCardSkeleton key={index} />
             ))
-          : genres?.items.map((genre) => (
+          : genres &&
+            genres.items.map((genre) => (
               <GenreCard genreDetails={genre} key={genre.id} />
             ))}
       </div>
+
+      {genres ? (
+        <div className="mt-auto">
+          <Pagination
+            currentPage={paginationParameters.page}
+            handleChangePage={(newPage) => {
+              setPaginationParameters((current) => ({
+                ...current,
+                page: newPage,
+              }));
+            }}
+            totalPages={genres.meta.totalPages}
+          />
+        </div>
+      ) : undefined}
     </div>
   );
 }
