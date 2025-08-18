@@ -25,16 +25,20 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
   const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
+    setIsLoading(true);
+
     loadPaginatedGenres
-      .loadPaginated({ page: 1, limit: 1 })
+      .loadPaginated(paginationParameters)
       .then((response) => {
         setGenres(response);
-        setIsLoading(false);
       })
       .catch((error) => {
         alert(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-  }, [loadPaginatedGenres, searchValue]);
+  }, [loadPaginatedGenres, paginationParameters, searchValue]);
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -49,7 +53,7 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
         value={searchValue}
       />
 
-      <div className="grid gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-2 overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {isLoading
           ? Array.from({ length: 15 }).map((_, index) => (
               // eslint-disable-next-line react/no-array-index-key
@@ -65,6 +69,12 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
         <div className="mt-auto">
           <Pagination
             currentPage={paginationParameters.page}
+            handleChangeLimit={(newLimit) => {
+              setPaginationParameters((current) => ({
+                ...current,
+                limit: newLimit,
+              }));
+            }}
             handleChangePage={(newPage) => {
               setPaginationParameters((current) => ({
                 ...current,
