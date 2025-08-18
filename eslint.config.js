@@ -41,17 +41,7 @@ export default tseslint.config([
       "@typescript-eslint/no-explicit-any": "off",
       "import/no-default-export": "error",
       "prettier/prettier": "error",
-      "react/forbid-component-props": [
-        "error",
-        {
-          forbid: [
-            {
-              propName: "className",
-              allowedFor: ["Link"],
-            },
-          ],
-        },
-      ],
+      "react/forbid-component-props": "off",
       "react/jsx-curly-newline": "off",
       "react/jsx-filename-extension": ["warn", { extensions: [".tsx"] }],
       "react/jsx-indent": "off",
