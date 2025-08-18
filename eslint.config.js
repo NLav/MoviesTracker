@@ -40,6 +40,7 @@ export default tseslint.config([
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
       "import/no-default-export": "error",
+      "no-console": ["error"],
       "prettier/prettier": "error",
       "react/forbid-component-props": "off",
       "react/jsx-curly-newline": "off",

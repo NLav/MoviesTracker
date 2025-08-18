@@ -8,17 +8,7 @@ type PaginationNavigatorProperties = Pick<
   "currentPage" | "handleChangePage" | "totalPages"
 >;
 
-const MAX_NUMBER_AROUND_CURRENT = 4;
-
-const numbersContainerStyle = tv({
-  base: "ml-auto flex w-full items-center gap-2",
-  variants: {
-    position: {
-      before: "justify-end",
-      after: "",
-    },
-  },
-});
+const MAX_QUANTITY_AROUND_CURRENT = 4;
 
 const numberStyle = tv({
   base: "flex cursor-pointer items-center justify-center rounded-md shadow-md shadow-neutral-500",
@@ -38,12 +28,43 @@ function PaginationNavigator({
   const quantityToStart = currentPage - 1;
   const quantityToEnd = totalPages - currentPage;
 
+  let quantityBeforeCurrent = Math.min(
+    quantityToStart,
+    MAX_QUANTITY_AROUND_CURRENT
+  );
+  let quantityAfterCurrent = Math.min(
+    quantityToEnd,
+    MAX_QUANTITY_AROUND_CURRENT
+  );
+
+  if (
+    quantityBeforeCurrent + quantityAfterCurrent <
+    MAX_QUANTITY_AROUND_CURRENT * 2
+  ) {
+    if (quantityBeforeCurrent < quantityAfterCurrent) {
+      const missingInBefore =
+        MAX_QUANTITY_AROUND_CURRENT - quantityBeforeCurrent;
+
+      quantityAfterCurrent = Math.min(
+        quantityAfterCurrent + missingInBefore,
+        quantityToEnd
+      );
+    } else {
+      const missingInAfter = MAX_QUANTITY_AROUND_CURRENT - quantityAfterCurrent;
+
+      quantityBeforeCurrent = Math.min(
+        quantityBeforeCurrent + missingInAfter,
+        quantityToStart
+      );
+    }
+  }
+
   const beforeCurrentNumbers = Array.from({
-    length: Math.min(quantityToStart, MAX_NUMBER_AROUND_CURRENT),
+    length: quantityBeforeCurrent,
   }).map((_, index, array) => index + currentPage - array.length);
 
   const afterCurrentNumbers = Array.from({
-    length: Math.min(quantityToEnd, MAX_NUMBER_AROUND_CURRENT),
+    length: quantityAfterCurrent,
   }).map((_, index) => index + 1 + currentPage);
 
   return (
@@ -56,7 +77,7 @@ function PaginationNavigator({
         <CaretLeftIcon className="text-4xl" />
       </Button>
 
-      <div className={numbersContainerStyle({ position: "before" })}>
+      <div className="flex items-center gap-2">
         {beforeCurrentNumbers.map((number) => (
           <button
             className={numberStyle({ current: false })}
@@ -67,11 +88,9 @@ function PaginationNavigator({
             {number}
           </button>
         ))}
-      </div>
 
-      <span className={numberStyle({ current: true })}>{currentPage}</span>
+        <span className={numberStyle({ current: true })}>{currentPage}</span>
 
-      <div className={numbersContainerStyle({ position: "after" })}>
         {afterCurrentNumbers.map((number) => (
           <button
             className={numberStyle({ current: false })}
