@@ -47,6 +47,7 @@ export default tseslint.config([
       "react/jsx-filename-extension": ["warn", { extensions: [".tsx"] }],
       "react/jsx-indent": "off",
       "react/jsx-indent-props": "off",
+      "react/jsx-max-depth": ["error", { max: 4 }],
       "react/jsx-max-props-per-line": "off",
       "react/jsx-no-bind": "off",
       "react/jsx-no-literals": "off",

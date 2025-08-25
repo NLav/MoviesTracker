@@ -1,19 +1,28 @@
-import type { PaginationProperties } from "@/presentation/components";
+import { Dropdown, type PaginationProperties } from "@/presentation/components";
 
 type PaginationLimitChangerProperties = Pick<
   PaginationProperties,
-  "handleChangeLimit"
+  "currentLimit" | "handleChangeLimit"
 >;
 
+const limitOptions = [
+  { label: "4", value: "4" },
+  { label: "8", value: "8" },
+  { label: "12", value: "12" },
+  { label: "16", value: "16" },
+];
+
 function PaginationLimitChanger({
+  currentLimit,
   handleChangeLimit,
 }: PaginationLimitChangerProperties) {
   return (
     <div className="bg-primary border-secondary rounded-md border-2 px-2 py-4">
-      <input
-        defaultValue={10}
-        onChange={(event) => handleChangeLimit(Number(event.target.value))}
-        type="number"
+      <Dropdown
+        onChange={(option) => handleChangeLimit(Number(option.value))}
+        options={limitOptions}
+        title="Limite por página"
+        value={{ label: String(currentLimit), value: String(currentLimit) }}
       />
     </div>
   );

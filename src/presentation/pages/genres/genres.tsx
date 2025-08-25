@@ -19,7 +19,7 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
   const [paginationParameters, setPaginationParameters] =
     useState<PaginationParameters>({
       page: 1,
-      limit: 10,
+      limit: 12,
     });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchValue, setSearchValue] = useState<string>("");
@@ -68,6 +68,7 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
       {genres ? (
         <div className="mt-auto">
           <Pagination
+            currentLimit={paginationParameters.limit}
             currentPage={paginationParameters.page}
             handleChangeLimit={(newLimit) => {
               setPaginationParameters((current) => ({

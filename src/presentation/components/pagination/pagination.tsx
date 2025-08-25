@@ -1,6 +1,7 @@
 import { PaginationLimitChanger, PaginationNavigator } from "./components";
 
 export type PaginationProperties = {
+  currentLimit: number;
   currentPage: number;
   totalPages: number;
   handleChangeLimit: (newLimit: number) => void;
@@ -8,6 +9,7 @@ export type PaginationProperties = {
 };
 
 function Pagination({
+  currentLimit,
   currentPage,
   handleChangeLimit,
   handleChangePage,
@@ -21,7 +23,10 @@ function Pagination({
         totalPages={totalPages}
       />
 
-      <PaginationLimitChanger handleChangeLimit={handleChangeLimit} />
+      <PaginationLimitChanger
+        currentLimit={currentLimit}
+        handleChangeLimit={handleChangeLimit}
+      />
     </div>
   );
 }
