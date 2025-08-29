@@ -1,5 +1,11 @@
 import { CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { Button } from "@/presentation/components";
 import { useOnClickOutside } from "@/presentation/hooks";
@@ -13,20 +19,31 @@ type DropdownProperties = {
   onChange: (option: Option) => void;
   options: Option[];
   title?: string;
-  value: Option;
+  selectedOption: Option;
 };
 
 const DROPDOWN_OPTIONS_MARGIN = 4;
 
-function Dropdown({ onChange, options, title, value }: DropdownProperties) {
+function Dropdown({
+  onChange,
+  options,
+  title,
+  selectedOption,
+}: DropdownProperties) {
   const [dropdownStyle, setDropdownStyle] = useState<CSSProperties>({});
-  const [localSearch, setLocalSearch] = useState<string>(value.label);
+  const [localSearch, setLocalSearch] = useState<string>(selectedOption.label);
   const [showDropdownOptions, setShowDropdownOptions] =
     useState<boolean>(false);
   const [showEveryOption, setShowEveryOption] = useState<boolean>(true);
 
   const dropdownReference = useRef<HTMLDivElement>(null);
   const dropdownOptionsReference = useRef<HTMLDivElement>(null);
+
+  const filteredOptions = useMemo(() => {
+    return showEveryOption
+      ? options
+      : options.filter((option) => option.label.includes(localSearch));
+  }, [localSearch, options, showEveryOption]);
 
   function handleChangeOption(option: Option) {
     setShowDropdownOptions(false);
@@ -73,6 +90,10 @@ function Dropdown({ onChange, options, title, value }: DropdownProperties) {
         <input
           className="px-2 py-1 text-lg"
           id="label"
+          onBlur={() => {
+            setLocalSearch(selectedOption.label);
+            setShowEveryOption(true);
+          }}
           onChange={(event) => {
             setLocalSearch(event.target.value);
             setShowEveryOption(false);
@@ -85,7 +106,7 @@ function Dropdown({ onChange, options, title, value }: DropdownProperties) {
           onClick={() => setShowDropdownOptions(!showDropdownOptions)}
           variant="none"
         >
-          <CaretDownIcon className="text-primary" size={24} weight="fill" />
+          <CaretDownIcon className="text-primary" size={24} weight="bold" />
         </Button>
       </div>
 
@@ -96,22 +117,21 @@ function Dropdown({ onChange, options, title, value }: DropdownProperties) {
           style={dropdownStyle}
         >
           <ul className="flex flex-col">
-            {(showEveryOption
-              ? options
-              : options.filter((option) => option.label.includes(localSearch))
-            ).map((option) => (
-              <button
-                className="hover:bg-primary flex cursor-pointer rounded-md px-4 py-2 transition"
-                key={option.value}
-                onClick={() => {
-                  onChange(option);
-                  handleChangeOption(option);
-                }}
-                type="button"
-              >
-                {option.label}
-              </button>
-            ))}
+            {filteredOptions.length > 0
+              ? filteredOptions.map((option) => (
+                  <button
+                    className="hover:bg-primary flex cursor-pointer rounded-md px-4 py-2 transition"
+                    key={option.value}
+                    onClick={() => {
+                      onChange(option);
+                      handleChangeOption(option);
+                    }}
+                    type="button"
+                  >
+                    {option.label}
+                  </button>
+                ))
+              : "Nenhuma opção encontrada"}
           </ul>
         </div>
       ) : undefined}

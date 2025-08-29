@@ -21,8 +21,11 @@ function PaginationLimitChanger({
       <Dropdown
         onChange={(option) => handleChangeLimit(Number(option.value))}
         options={limitOptions}
+        selectedOption={{
+          label: String(currentLimit),
+          value: String(currentLimit),
+        }}
         title="Limite por página"
-        value={{ label: String(currentLimit), value: String(currentLimit) }}
       />
     </div>
   );
