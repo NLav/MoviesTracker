@@ -5,7 +5,7 @@ import type {
   LoadPaginatedGenres,
   LoadPaginatedGenresModel,
 } from "@/domain/usecases/genres";
-import { Input, Pagination } from "@/presentation/components";
+import { Input, NoItems, Pagination } from "@/presentation/components";
 import { searchDelay } from "@/shared/constants";
 
 import { GenreCard, GenreCardSkeleton } from "./components";
@@ -23,6 +23,32 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
     });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchValue, setSearchValue] = useState<string>("");
+
+  function renderGenres() {
+    const gridClassname =
+      "grid gap-2 overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4";
+
+    if (isLoading) {
+      return Array.from({ length: 15 }).map((_, index) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <div className={gridClassname} key={index}>
+          <GenreCardSkeleton />
+        </div>
+      ));
+    }
+
+    if (genres && genres.items) {
+      return genres.items.length > 0 ? (
+        <div className={gridClassname}>
+          {genres.items.map((genre) => (
+            <GenreCard genreDetails={genre} key={genre.id} />
+          ))}
+        </div>
+      ) : (
+        <NoItems article="o" word="gênero" />
+      );
+    }
+  }
 
   useEffect(() => {
     setIsLoading(true);
@@ -53,19 +79,9 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
         value={searchValue}
       />
 
-      <div className="grid gap-2 overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        {isLoading
-          ? Array.from({ length: 15 }).map((_, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <GenreCardSkeleton key={index} />
-            ))
-          : genres &&
-            genres.items.map((genre) => (
-              <GenreCard genreDetails={genre} key={genre.id} />
-            ))}
-      </div>
+      {renderGenres()}
 
-      {genres ? (
+      {genres && genres.items.length > 0 ? (
         <div className="mt-auto">
           <Pagination
             currentLimit={paginationParameters.limit}
