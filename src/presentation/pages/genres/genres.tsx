@@ -14,6 +14,37 @@ type GenresProperties = {
   loadPaginatedGenres: LoadPaginatedGenres;
 };
 
+function renderGenres(
+  genres: LoadPaginatedGenresModel | undefined,
+  isLoading: boolean
+) {
+  const gridClassname =
+    "grid gap-2 overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4";
+
+  if (isLoading) {
+    return (
+      <div className={gridClassname}>
+        {Array.from({ length: 12 }).map((_, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <GenreCardSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
+
+  if (genres && genres.items) {
+    return genres.items.length > 0 ? (
+      <div className={gridClassname}>
+        {genres.items.map((genre) => (
+          <GenreCard genreDetails={genre} key={genre.id} />
+        ))}
+      </div>
+    ) : (
+      <NoItems article="o" word="gênero" />
+    );
+  }
+}
+
 function Genres({ loadPaginatedGenres }: GenresProperties) {
   const [genres, setGenres] = useState<LoadPaginatedGenresModel>();
   const [paginationParameters, setPaginationParameters] =
@@ -23,32 +54,6 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
     });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchValue, setSearchValue] = useState<string>("");
-
-  function renderGenres() {
-    const gridClassname =
-      "grid gap-2 overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4";
-
-    if (isLoading) {
-      return Array.from({ length: 15 }).map((_, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <div className={gridClassname} key={index}>
-          <GenreCardSkeleton />
-        </div>
-      ));
-    }
-
-    if (genres && genres.items) {
-      return genres.items.length > 0 ? (
-        <div className={gridClassname}>
-          {genres.items.map((genre) => (
-            <GenreCard genreDetails={genre} key={genre.id} />
-          ))}
-        </div>
-      ) : (
-        <NoItems article="o" word="gênero" />
-      );
-    }
-  }
 
   useEffect(() => {
     setIsLoading(true);
@@ -79,7 +84,7 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
         value={searchValue}
       />
 
-      {renderGenres()}
+      {renderGenres(genres, isLoading)}
 
       {genres && genres.items.length > 0 ? (
         <div className="mt-auto">
