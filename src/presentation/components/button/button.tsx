@@ -9,10 +9,12 @@ type ButtonProperties = {
 type ButtonVariants = VariantProps<typeof buttonStyles>;
 
 const buttonStyles = tv({
-  base: "cursor-pointer transition not-disabled:hover:brightness-400 disabled:cursor-not-allowed disabled:opacity-30",
+  base: "cursor-pointer transition disabled:cursor-not-allowed disabled:opacity-30",
   variants: {
     variant: {
-      none: "",
+      none: "not-disabled:hover:brightness-500",
+      primary:
+        "bg-primary border-secondary not-disabled:hover:bg-primary-500 rounded-full border px-2 py-1",
     },
   },
 });
