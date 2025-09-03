@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { type PaginationParameters } from "@/data/dtos";
 import type {
   LoadPaginatedGenres,
   LoadPaginatedGenresModel,
 } from "@/domain/usecases/genres";
-import { Input, NoItems, Pagination } from "@/presentation/components";
+import { Button, Input, NoItems, Pagination } from "@/presentation/components";
 import { searchDelay } from "@/shared/constants";
 
 import { GenreCard, GenreCardSkeleton } from "./components";
@@ -55,6 +56,8 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchValue, setSearchValue] = useState<string>("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -73,7 +76,18 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
 
   return (
     <div className="flex w-full flex-col gap-6">
-      <h1 className="font-semibold">Gêneros</h1>
+      <div className="flex justify-between">
+        <h1 className="font-semibold">Gêneros</h1>
+
+        <Button
+          onClick={() => {
+            navigate("/genres/new");
+          }}
+          variant="primary"
+        >
+          Novo gênero
+        </Button>
+      </div>
 
       <Input
         delay={searchDelay}

@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { makeMainLayout } from "@/main/factories/layouts";
-import { makeGenrePage } from "@/main/factories/pages";
+import { makeGenreFormPage, makeGenrePage } from "@/main/factories/pages";
 import { baseSubPath } from "@/shared/constants";
 
 const router = createBrowserRouter([
@@ -28,6 +28,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: makeGenrePage(),
+          },
+          {
+            path: "new",
+            element: makeGenreFormPage(),
           },
         ],
       },

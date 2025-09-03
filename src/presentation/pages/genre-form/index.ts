@@ -1,2 +1,1 @@
 export * from "./genre-form";
-export * from "./genres";
