@@ -34,7 +34,7 @@ function Menu({ options }: MenuProperties) {
         return;
       }
 
-      if (link === currentHoverLink || link === currentPathname) {
+      if (link === currentHoverLink || currentPathname.includes(link)) {
         return activeLinkReference;
       }
     },

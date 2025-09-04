@@ -6,7 +6,13 @@ import type {
   LoadPaginatedGenres,
   LoadPaginatedGenresModel,
 } from "@/domain/usecases/genres";
-import { Button, Input, NoItems, Pagination } from "@/presentation/components";
+import {
+  Button,
+  Input,
+  NoItems,
+  PageHeader,
+  Pagination,
+} from "@/presentation/components";
 import { searchDelay } from "@/shared/constants";
 
 import { GenreCard, GenreCardSkeleton } from "./components";
@@ -76,9 +82,7 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
 
   return (
     <div className="flex w-full flex-col gap-6">
-      <div className="flex justify-between">
-        <h1 className="font-semibold">Gêneros</h1>
-
+      <PageHeader title="Gêneros">
         <Button
           onClick={() => {
             navigate("/genres/new");
@@ -87,7 +91,7 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
         >
           Novo gênero
         </Button>
-      </div>
+      </PageHeader>
 
       <Input
         delay={searchDelay}

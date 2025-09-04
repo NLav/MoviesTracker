@@ -10,10 +10,11 @@ export interface HttpClient<R = any> {
   request: (data: HttpRequest) => Promise<HttpResponse<R>>;
 }
 
-export type HttpMethod = "GET";
+export type HttpMethod = "GET" | "POST";
 
 export enum HttpStatusCode {
   ok = 200,
+  created = 201,
   noContent = 204,
   badRequest = 400,
   unauthorized = 401,

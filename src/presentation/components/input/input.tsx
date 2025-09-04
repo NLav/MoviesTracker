@@ -5,6 +5,7 @@ import { useDebounceCallback } from "@/presentation/hooks";
 
 type InputProperties = {
   delay?: number;
+  errorMessage?: string;
   onChange: NonNullable<InputHTMLAttributes<HTMLInputElement>["onChange"]>;
   title?: string;
   value: InputHTMLAttributes<HTMLInputElement>["value"];
@@ -29,6 +30,7 @@ function handleChange(
 function Input({
   delay,
   disabled,
+  errorMessage,
   onChange,
   placeholder,
   title,
@@ -52,6 +54,10 @@ function Input({
         placeholder={placeholder}
         value={localValue}
       />
+
+      {errorMessage ? (
+        <span className="text-xs text-red-500">Campo obrigatório</span>
+      ) : undefined}
     </div>
   );
 }

@@ -7,8 +7,12 @@ const GenreSchema = z.object({
   updatedAt: z.coerce.date(),
   deletedAt: z.coerce.date().nullable(),
 });
-
 type GenreProperties = z.infer<typeof GenreSchema>;
+
+export const NewGenreSchema = z.object({
+  name: z.string(),
+});
+export type NewGenreProperties = z.infer<typeof NewGenreSchema>;
 
 export class Genre implements GenreProperties {
   id: string;

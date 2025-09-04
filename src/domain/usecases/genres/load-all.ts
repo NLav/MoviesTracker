@@ -1,8 +1,8 @@
 import type { GenreModel } from "@/domain/models";
 
-export interface LoadAllGenres {
+export type LoadAllGenres = {
   loadAll: (parameters: LoadAllGenresParameters) => Promise<LoadAllGenresModel>;
-}
+};
 
 export type LoadAllGenresParameters = {
   searchValue?: string;
