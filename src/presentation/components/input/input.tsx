@@ -36,7 +36,9 @@ function Input({
   title,
   value,
 }: InputProperties) {
-  const [localValue, setLocalValue] = useState<InputProperties["value"]>(value);
+  const [localValue, setLocalValue] = useState<InputProperties["value"]>(
+    value ?? ""
+  );
 
   const debouncedOnChange = useDebounceCallback(onChange, delay);
 
