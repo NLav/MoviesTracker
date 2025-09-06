@@ -12,7 +12,7 @@ const limitOptions = [
   { label: "16", value: "16" },
 ];
 
-function PaginationLimitChanger({
+function PaginationLimitSelector({
   currentLimit,
   handleChangeLimit,
 }: PaginationLimitChangerProperties) {
@@ -31,4 +31,4 @@ function PaginationLimitChanger({
   );
 }
 
-export { PaginationLimitChanger };
+export { PaginationLimitSelector };

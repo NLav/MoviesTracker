@@ -1,4 +1,4 @@
-import { PaginationLimitChanger, PaginationNavigator } from "./components";
+import { PaginationLimitSelector, PaginationNavigator } from "./components";
 
 export type PaginationProperties = {
   currentLimit: number;
@@ -23,7 +23,7 @@ function Pagination({
         totalPages={totalPages}
       />
 
-      <PaginationLimitChanger
+      <PaginationLimitSelector
         currentLimit={currentLimit}
         handleChangeLimit={handleChangeLimit}
       />
