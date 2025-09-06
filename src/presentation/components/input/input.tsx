@@ -47,7 +47,7 @@ function Input({
       {title ? <label htmlFor={title}>{title}</label> : undefined}
 
       <input
-        className="border-primary w-full rounded-lg border px-2 py-1 disabled:cursor-not-allowed disabled:bg-neutral-200"
+        className="border-primary w-full rounded-lg border-2 px-2 py-1 disabled:cursor-not-allowed disabled:bg-neutral-200"
         disabled={disabled}
         id={title}
         onChange={(event) =>
