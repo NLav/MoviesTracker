@@ -76,7 +76,7 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
       })
       .catch(() => {
         toast({
-          message: "Erro ao criar o gênero",
+          message: "Erro ao listar os gêneros",
           variant: "error",
         });
       })

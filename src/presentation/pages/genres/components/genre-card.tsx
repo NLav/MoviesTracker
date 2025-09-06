@@ -1,5 +1,9 @@
+import { useCallback } from "react";
+
 import type { GenreModel } from "@/domain/models";
+import { makeRemoteDeleteGenre } from "@/main/factories/usecases";
 import { ContextMenu } from "@/presentation/components/context-menu";
+import { useToast } from "@/presentation/hooks";
 import { formatDate } from "@/shared/utils";
 
 type GenreCardProperties = {
@@ -7,6 +11,26 @@ type GenreCardProperties = {
 };
 
 function GenreCard({ genreDetails }: GenreCardProperties) {
+  const toast = useToast();
+
+  const handleDeleteGenre = useCallback(() => {
+    const deleteGenre = makeRemoteDeleteGenre();
+    deleteGenre
+      .delete({ id: genreDetails.id })
+      .then(() => {
+        toast({
+          message: `Gênero "${genreDetails.name}" excluído com sucesso`,
+          variant: "success",
+        });
+      })
+      .catch(() => {
+        toast({
+          message: "Falha ao deletar o gênero",
+          variant: "error",
+        });
+      });
+  }, [genreDetails.id, genreDetails.name, toast]);
+
   return (
     <div className="bg-primary border-secondary flex flex-col gap-2 rounded-md border-2 p-4">
       <div className="flex">
@@ -18,7 +42,13 @@ function GenreCard({ genreDetails }: GenreCardProperties) {
           className="ml-auto"
           items={[
             { action: () => {}, label: "Editar" },
-            { action: () => {}, label: "Excluir", variant: "red" },
+            {
+              action: () => {
+                handleDeleteGenre();
+              },
+              label: "Excluir",
+              variant: "red",
+            },
           ]}
         />
       </div>
