@@ -13,6 +13,7 @@ import {
   PageHeader,
   Pagination,
 } from "@/presentation/components";
+import { useToast } from "@/presentation/hooks";
 import { searchDelay } from "@/shared/constants";
 
 import { GenreCard, GenreCardSkeleton } from "./components";
@@ -63,6 +64,7 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
   const [searchValue, setSearchValue] = useState<string>("");
 
   const navigate = useNavigate();
+  const toast = useToast();
 
   useEffect(() => {
     setIsLoading(true);
@@ -72,13 +74,16 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
       .then((response) => {
         setGenres(response);
       })
-      .catch((error) => {
-        alert(error);
+      .catch(() => {
+        toast({
+          message: "Erro ao criar o gênero",
+          variant: "error",
+        });
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }, [loadPaginatedGenres, paginationParameters, searchValue]);
+  }, [loadPaginatedGenres, paginationParameters, toast]);
 
   return (
     <div className="flex w-full flex-col gap-6">

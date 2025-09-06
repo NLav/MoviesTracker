@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 import { makeRemoteCreateGenre } from "@/main/factories/usecases";
 import { Button, Input, PageHeader } from "@/presentation/components";
+import { useToast } from "@/presentation/hooks";
 import { type NewGenreProperties, NewGenreSchema } from "@/validation/models";
 
 function GenreForm() {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const { control: newGenreControl, handleSubmit: newGenreHandleSubmit } =
     useForm<NewGenreProperties>({
@@ -25,14 +27,20 @@ function GenreForm() {
       createGenre
         .create(newGenreData)
         .then((createdGenre) => {
-          alert(`Novo gênero criado, ID ${createdGenre.id}`);
+          toast({
+            message: `Novo gênero "${createdGenre.name}" criado`,
+            variant: "success",
+          });
           navigate("/genres");
         })
-        .catch((error) => {
-          alert(error);
+        .catch(() => {
+          toast({
+            message: "Erro ao criar o gênero",
+            variant: "error",
+          });
         });
     },
-    [navigate]
+    [navigate, toast]
   );
 
   return (
