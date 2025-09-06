@@ -10,7 +10,7 @@ export type ToastProperties = {
 };
 
 const toastStyles = tv({
-  base: "flex h-20 w-70 animate-[toast_ease-in-out] items-center gap-2 rounded-md p-2 text-lg shadow-md shadow-neutral-500",
+  base: "relative flex h-20 w-70 animate-[toast_ease-in-out] items-center gap-2 overflow-hidden rounded-md p-2 text-lg shadow-md shadow-neutral-500",
   variants: {
     variant: {
       success: "bg-green-400 dark:bg-green-600",
@@ -39,6 +39,11 @@ function Toast({ message, variant }: ToastProperties) {
       })}
 
       {message}
+
+      <span
+        className="bg-primary absolute inset-x-0 bottom-0 h-2 animate-[shrink-width_ease-in-out] rounded-full"
+        style={{ animationDuration: toastTimeout + "ms" }}
+      />
     </div>
   );
 }
