@@ -4,13 +4,13 @@ import { tv, type VariantProps } from "tailwind-variants";
 
 type ButtonProperties = {
   children: NonNullable<ButtonHTMLAttributes<HTMLButtonElement>["children"]>;
-  variant: NonNullable<ButtonVariants["variant"]>;
+  variant: ButtonVariants;
 } & Pick<
   ButtonHTMLAttributes<HTMLButtonElement>,
   "className" | "disabled" | "onClick" | "type"
 >;
 
-type ButtonVariants = VariantProps<typeof buttonStyles>;
+type ButtonVariants = NonNullable<VariantProps<typeof buttonStyles>["variant"]>;
 
 const buttonStyles = tv({
   base: "cursor-pointer transition disabled:cursor-not-allowed disabled:opacity-30",

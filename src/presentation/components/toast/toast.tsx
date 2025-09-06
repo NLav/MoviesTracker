@@ -6,7 +6,7 @@ import { toastTimeout } from "@/shared/constants";
 
 export type ToastProperties = {
   message: string;
-  variant: NonNullable<ToastVariants["variant"]>;
+  variant: ToastVariants;
 };
 
 const toastStyles = tv({
@@ -19,7 +19,7 @@ const toastStyles = tv({
   },
 });
 
-type ToastVariants = VariantProps<typeof toastStyles>;
+type ToastVariants = NonNullable<VariantProps<typeof toastStyles>["variant"]>;
 
 const iconVariants: Record<ToastProperties["variant"], JSX.Element> = {
   success: <CheckCircleIcon />,
