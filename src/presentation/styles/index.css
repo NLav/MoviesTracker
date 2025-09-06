@@ -31,6 +31,21 @@
 
   --color-primary: var(--color-primary-300);
   --color-secondary: var(--color-secondary-300);
+
+  @keyframes toast {
+    0% {
+      transform: translateX(100%);
+    }
+    10% {
+      transform: translateX(0);
+    }
+    90% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
 }
 
 @layer base {

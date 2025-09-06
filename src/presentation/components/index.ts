@@ -6,3 +6,4 @@ export * from "./no-items";
 export * from "./page-header";
 export * from "./pagination";
 export * from "./skeleton-block";
+export * from "./toast";
