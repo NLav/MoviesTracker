@@ -14,7 +14,7 @@ function SkeletonBlock({
   return (
     <span
       className={classNames(
-        "rounded-md bg-neutral-50",
+        "rounded-md bg-neutral-100",
         heightClassname,
         widthClassname,
         extraClassname

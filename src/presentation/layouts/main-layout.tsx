@@ -22,7 +22,7 @@ function MainLayout() {
         ]}
       />
 
-      <span className="flex h-full overflow-auto rounded-t-4xl bg-neutral-50 p-8 shadow-inner shadow-neutral-500 dark:bg-neutral-900">
+      <span className="flex h-full overflow-auto rounded-t-4xl bg-neutral-100 p-8 shadow-inner shadow-neutral-500 dark:bg-neutral-900">
         <Outlet />
       </span>
     </div>
