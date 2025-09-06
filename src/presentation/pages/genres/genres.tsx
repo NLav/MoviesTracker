@@ -2,29 +2,24 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { type PaginationParameters } from "@/data/dtos";
-import type {
-  LoadPaginatedGenres,
-  LoadPaginatedGenresModel,
-} from "@/domain/usecases/genres";
+import type { LoadPaginatedGenresModel } from "@/domain/usecases/genres";
 import {
   Button,
   Input,
+  ListError,
   NoItems,
   PageHeader,
   Pagination,
 } from "@/presentation/components";
-import { useToast } from "@/presentation/hooks";
+import { useGenresPaginated, useToast } from "@/presentation/hooks";
 import { searchDelay } from "@/shared/constants";
 
 import { GenreCard, GenreCardSkeleton } from "./components";
 
-type GenresProperties = {
-  loadPaginatedGenres: LoadPaginatedGenres;
-};
-
 function renderGenres(
-  genres: LoadPaginatedGenresModel | undefined,
-  isLoading: boolean
+  genres: LoadPaginatedGenresModel["items"],
+  isLoading: boolean,
+  error?: string
 ) {
   const gridClassname =
     "grid gap-2 overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4";
@@ -40,50 +35,47 @@ function renderGenres(
     );
   }
 
-  if (genres && genres.items) {
-    return genres.items.length > 0 ? (
-      <div className={gridClassname}>
-        {genres.items.map((genre) => (
-          <GenreCard genreDetails={genre} key={genre.id} />
-        ))}
-      </div>
-    ) : (
-      <NoItems article="o" word="gênero" />
-    );
+  if (error) {
+    return <ListError />;
   }
+
+  return genres.length > 0 ? (
+    <div className={gridClassname}>
+      {genres.map((genre) => (
+        <GenreCard genreDetails={genre} key={genre.id} />
+      ))}
+    </div>
+  ) : (
+    <NoItems article="o" word="gênero" />
+  );
 }
 
-function Genres({ loadPaginatedGenres }: GenresProperties) {
-  const [genres, setGenres] = useState<LoadPaginatedGenresModel>();
+function Genres() {
   const [paginationParameters, setPaginationParameters] =
     useState<PaginationParameters>({
       page: 1,
       limit: 12,
     });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchValue, setSearchValue] = useState<string>("");
 
   const navigate = useNavigate();
   const toast = useToast();
 
-  useEffect(() => {
-    setIsLoading(true);
+  const { error, genres, genresMeta, getUsersPaginated, isLoading } =
+    useGenresPaginated();
 
-    loadPaginatedGenres
-      .loadPaginated(paginationParameters)
-      .then((response) => {
-        setGenres(response);
-      })
-      .catch(() => {
-        toast({
-          message: "Erro ao listar os gêneros",
-          variant: "error",
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
+  useEffect(() => {
+    getUsersPaginated(paginationParameters);
+  }, [getUsersPaginated, paginationParameters]);
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        message: error,
+        variant: "error",
       });
-  }, [loadPaginatedGenres, paginationParameters, toast]);
+    }
+  }, [error, toast]);
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -107,9 +99,9 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
         value={searchValue}
       />
 
-      {renderGenres(genres, isLoading)}
+      {renderGenres(genres, isLoading, error)}
 
-      {genres && genres.items.length > 0 ? (
+      {genres.length > 0 && genresMeta ? (
         <div className="mt-auto">
           <Pagination
             currentLimit={paginationParameters.limit}
@@ -118,6 +110,7 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
               setPaginationParameters((current) => ({
                 ...current,
                 limit: newLimit,
+                page: 1,
               }));
             }}
             handleChangePage={(newPage) => {
@@ -126,7 +119,7 @@ function Genres({ loadPaginatedGenres }: GenresProperties) {
                 page: newPage,
               }));
             }}
-            totalPages={genres.meta.totalPages}
+            totalPages={genresMeta.totalPages}
           />
         </div>
       ) : undefined}

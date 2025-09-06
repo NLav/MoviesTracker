@@ -5,7 +5,6 @@ import type {
   LoadPaginatedGenresModel,
   LoadPaginatedGenresParameters,
 } from "@/domain/usecases/genres";
-import { Genre } from "@/validation/models";
 
 export class RemoteLoadPaginatedGenres implements LoadPaginatedGenres {
   constructor(
@@ -26,10 +25,7 @@ export class RemoteLoadPaginatedGenres implements LoadPaginatedGenres {
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok: {
-        return {
-          items: response.items.map((item) => new Genre(item)),
-          meta: response.meta,
-        };
+        return response;
       }
       case HttpStatusCode.noContent: {
         return {
