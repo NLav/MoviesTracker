@@ -1,4 +1,5 @@
 import type { GenreModel } from "@/domain/models";
+import { ContextMenu } from "@/presentation/components/context-menu";
 import { formatDate } from "@/shared/utils";
 
 type GenreCardProperties = {
@@ -7,10 +8,22 @@ type GenreCardProperties = {
 
 function GenreCard({ genreDetails }: GenreCardProperties) {
   return (
-    <div className="bg-primary border-secondary flex flex-col gap-2 rounded-lg border-2 p-4">
-      <span className="text-xl font-semibold">{genreDetails.name}</span>
+    <div className="bg-primary border-secondary flex flex-col gap-2 rounded-md border-2 p-4">
+      <div className="flex">
+        <span className="truncate text-xl font-semibold">
+          {genreDetails.name}
+        </span>
 
-      <span className="ml-auto text-sm">
+        <ContextMenu
+          className="ml-auto"
+          items={[
+            { action: () => {}, label: "Editar" },
+            { action: () => {}, label: "Excluir", variant: "red" },
+          ]}
+        />
+      </div>
+
+      <span className="col-span-2 ml-auto text-sm">
         Criado em: {formatDate(genreDetails.createdAt)}
       </span>
     </div>
