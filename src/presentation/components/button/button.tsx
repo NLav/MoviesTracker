@@ -19,6 +19,8 @@ const buttonStyles = tv({
       none: "not-disabled:hover:brightness-500",
       primary:
         "bg-primary border-secondary not-disabled:hover:bg-primary-500 rounded-full border-2 px-2 py-1",
+      primaryOutlined:
+        "border-primary not-disabled:hover:border-primary-500 rounded-full border-2 px-2 py-1",
     },
   },
 });
