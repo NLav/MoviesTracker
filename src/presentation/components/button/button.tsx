@@ -1,13 +1,13 @@
 import classNames from "classnames";
-import type { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes, ComponentPropsWithRef } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
 type ButtonProperties = {
   children: NonNullable<ButtonHTMLAttributes<HTMLButtonElement>["children"]>;
   variant: ButtonVariants;
 } & Pick<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  "className" | "disabled" | "onClick" | "type"
+  ComponentPropsWithRef<"button">,
+  "className" | "disabled" | "onClick" | "ref" | "type"
 >;
 
 type ButtonVariants = NonNullable<VariantProps<typeof buttonStyles>["variant"]>;
@@ -30,6 +30,7 @@ function Button({
   className,
   disabled,
   onClick,
+  ref,
   type,
   variant,
 }: ButtonProperties) {
@@ -38,6 +39,7 @@ function Button({
       className={classNames(buttonStyles({ variant }), className)}
       disabled={disabled}
       onClick={onClick}
+      ref={ref}
       // eslint-disable-next-line react/button-has-type
       type={type ?? "button"}
     >
