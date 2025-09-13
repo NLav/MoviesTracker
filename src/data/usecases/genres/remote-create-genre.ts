@@ -13,7 +13,7 @@ export class RemoteCreateGenre implements CreateGenre {
     private readonly httpClient: HttpClient
   ) {}
 
-  async create(data: CreateGenreData): Promise<CreateGenreModel> {
+  async execute(data: CreateGenreData): Promise<CreateGenreModel> {
     const httpResponse = await this.httpClient.request({
       url: this.url,
       method: "POST",

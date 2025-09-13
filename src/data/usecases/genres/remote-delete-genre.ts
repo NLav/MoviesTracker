@@ -13,7 +13,7 @@ export class RemoteDeleteGenre implements DeleteGenre {
     private readonly httpClient: HttpClient
   ) {}
 
-  async delete(parameters: DeleteGenreParameters): Promise<DeleteGenreModel> {
+  async execute(parameters: DeleteGenreParameters): Promise<DeleteGenreModel> {
     const httpResponse = await this.httpClient.request({
       url: this.url + `/${parameters.id}`,
       method: "DELETE",

@@ -19,7 +19,7 @@ function useGenresPaginated({ parameters }: UseGenresPaginatedProperties) {
     queryKey: ["genres-paginated", parameters],
     queryFn: async () => {
       const loadPaginatedGenres = makeRemoteLoadPaginatedGenres();
-      const response = await loadPaginatedGenres.loadPaginated(parameters);
+      const response = await loadPaginatedGenres.execute(parameters);
 
       return response;
     },

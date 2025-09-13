@@ -31,7 +31,7 @@ function GenreForm() {
       const createGenre = makeRemoteCreateGenre();
 
       createGenre
-        .create(newGenreData)
+        .execute(newGenreData)
         .then((createdGenre) => {
           queryClient.invalidateQueries();
 

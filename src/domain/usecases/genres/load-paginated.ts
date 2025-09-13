@@ -2,7 +2,7 @@ import type { Pagination, PaginationParameters } from "@/data/dtos";
 import type { GenreModel } from "@/domain/models";
 
 export type LoadPaginatedGenres = {
-  loadPaginated: (
+  execute: (
     parameters: LoadPaginatedGenresParameters
   ) => Promise<LoadPaginatedGenresModel>;
 };

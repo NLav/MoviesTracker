@@ -12,7 +12,7 @@ export class RemoteLoadPaginatedGenres implements LoadPaginatedGenres {
     private readonly httpClient: HttpClient
   ) {}
 
-  async loadPaginated(
+  async execute(
     parameters: LoadPaginatedGenresParameters
   ): Promise<LoadPaginatedGenresModel> {
     const httpResponse = await this.httpClient.request({

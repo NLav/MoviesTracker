@@ -18,7 +18,7 @@ function GenreCard({ genreDetails }: GenreCardProperties) {
   const handleDeleteGenre = useCallback(() => {
     const deleteGenre = makeRemoteDeleteGenre();
     deleteGenre
-      .delete({ id: genreDetails.id })
+      .execute({ id: genreDetails.id })
       .then(() => {
         queryClient.invalidateQueries();
 

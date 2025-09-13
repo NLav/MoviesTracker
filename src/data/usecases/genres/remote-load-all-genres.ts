@@ -13,7 +13,7 @@ export class RemoteLoadAllGenres implements LoadAllGenres {
     private readonly httpClient: HttpClient
   ) {}
 
-  async loadAll(
+  async execute(
     parameters: LoadAllGenresParameters
   ): Promise<LoadAllGenresModel> {
     const httpResponse = await this.httpClient.request({
