@@ -20,6 +20,10 @@ function GenreForm() {
       resolver: zodResolver(NewGenreSchema),
     });
 
+  const handleGoBack = useCallback(() => {
+    navigate("/genres");
+  }, [navigate]);
+
   const handleSuccess = useCallback(
     (newGenreData: NewGenreProperties) => {
       const createGenre = makeRemoteCreateGenre();
@@ -31,7 +35,8 @@ function GenreForm() {
             message: `Novo gênero "${createdGenre.name}" criado`,
             variant: "success",
           });
-          navigate("/genres");
+
+          handleGoBack();
         })
         .catch(() => {
           toast({
@@ -40,7 +45,7 @@ function GenreForm() {
           });
         });
     },
-    [navigate, toast]
+    [handleGoBack, toast]
   );
 
   return (
@@ -65,9 +70,19 @@ function GenreForm() {
           )}
         />
 
-        <Button className="mx-auto w-40" type="submit" variant="primary">
-          Criar
-        </Button>
+        <div className="mx-auto flex gap-4">
+          <Button
+            className="w-40"
+            onClick={handleGoBack}
+            variant="primaryOutlined"
+          >
+            Voltar
+          </Button>
+
+          <Button className="w-40" type="submit" variant="primary">
+            Criar
+          </Button>
+        </div>
       </form>
     </div>
   );
