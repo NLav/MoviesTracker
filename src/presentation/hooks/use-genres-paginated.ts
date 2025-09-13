@@ -12,6 +12,7 @@ type UseGenresPaginatedProperties = {
 
 function useGenresPaginated({ parameters }: UseGenresPaginatedProperties) {
   const dispatch = useAppDispatch();
+
   const { items, meta } = useAppSelector((state) => state.genresPaginated);
 
   const { error, data, isLoading, isRefetching, refetch } = useQuery({

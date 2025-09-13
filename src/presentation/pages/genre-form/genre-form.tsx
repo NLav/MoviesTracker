@@ -1,28 +1,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { makeRemoteCreateGenre } from "@/main/factories/usecases";
 import { Button, Input, PageHeader } from "@/presentation/components";
-import {
-  useAppSelector,
-  useGenresPaginated,
-  useToast,
-} from "@/presentation/hooks";
+import { useToast } from "@/presentation/hooks";
 import { type NewGenreProperties, NewGenreSchema } from "@/validation/models";
 
 function GenreForm() {
-  const { parameters: genresPaginationParameters } = useAppSelector(
-    (state) => state.genresPaginated
-  );
-
   const navigate = useNavigate();
   const toast = useToast();
-
-  const { genresRefetch } = useGenresPaginated({
-    parameters: genresPaginationParameters,
-  });
+  const queryClient = useQueryClient();
 
   const { control: newGenreControl, handleSubmit: newGenreHandleSubmit } =
     useForm<NewGenreProperties>({
@@ -43,7 +33,7 @@ function GenreForm() {
       createGenre
         .create(newGenreData)
         .then((createdGenre) => {
-          genresRefetch();
+          queryClient.invalidateQueries();
 
           toast({
             message: `Novo gênero "${createdGenre.name}" criado`,
@@ -59,7 +49,7 @@ function GenreForm() {
           });
         });
     },
-    [handleGoBack, toast]
+    [handleGoBack, queryClient, toast]
   );
 
   return (

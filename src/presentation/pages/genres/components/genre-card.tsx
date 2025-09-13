@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 
 import type { GenreModel } from "@/domain/models";
@@ -12,12 +13,15 @@ type GenreCardProperties = {
 
 function GenreCard({ genreDetails }: GenreCardProperties) {
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   const handleDeleteGenre = useCallback(() => {
     const deleteGenre = makeRemoteDeleteGenre();
     deleteGenre
       .delete({ id: genreDetails.id })
       .then(() => {
+        queryClient.invalidateQueries();
+
         toast({
           message: `Gênero "${genreDetails.name}" excluído com sucesso`,
           variant: "success",
@@ -29,7 +33,7 @@ function GenreCard({ genreDetails }: GenreCardProperties) {
           variant: "error",
         });
       });
-  }, [genreDetails.id, genreDetails.name, toast]);
+  }, [genreDetails.id, genreDetails.name, queryClient, toast]);
 
   return (
     <div className="bg-primary border-secondary flex flex-col gap-2 rounded-md border-2 p-4">
