@@ -1,13 +1,13 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
-import { makeMainLayout } from "@/main/factories/layouts";
-import { makeGenreFormPage, makeGenrePage } from "@/main/factories/pages";
+import { MakeMainLayout } from "@/main/factories/layouts";
+import { MakeGenreFormPage, MakeGenrePage } from "@/main/factories/pages";
 import { baseSubPath } from "@/shared/constants";
 
 const router = createBrowserRouter([
   {
     path: baseSubPath,
-    element: makeMainLayout(),
+    element: <MakeMainLayout />,
     children: [
       {
         index: true,
@@ -27,11 +27,11 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: makeGenrePage(),
+            element: <MakeGenrePage />,
           },
           {
             path: "new",
-            element: makeGenreFormPage(),
+            element: <MakeGenreFormPage />,
           },
         ],
       },

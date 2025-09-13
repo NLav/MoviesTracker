@@ -3,7 +3,7 @@ export type PaginationParameters = {
   limit: number;
 };
 
-type PaginationMeta = {
+export type PaginationMeta = {
   page: number;
   totalPages: number;
 };
