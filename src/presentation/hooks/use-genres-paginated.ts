@@ -1,27 +1,36 @@
-import { useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-import { getGenresPaginated } from "@/data/slices";
+import { genresPaginatedSlice } from "@/data/slices";
 import type { LoadPaginatedGenresParameters } from "@/domain/usecases/genres";
+import { makeRemoteLoadPaginatedGenres } from "@/main/factories/usecases";
 import { useAppDispatch, useAppSelector } from "@/presentation/hooks";
 
-function useGenresPaginated() {
-  const dispatch = useAppDispatch();
-  const { items, meta, isLoading, error } = useAppSelector(
-    (state) => state.genresPaginated
-  );
+type UseGenresPaginatedProperties = {
+  parameters: LoadPaginatedGenresParameters;
+};
 
-  const getUsersPaginated = useCallback(
-    (parameters: LoadPaginatedGenresParameters) =>
-      dispatch(getGenresPaginated(parameters)),
-    [dispatch]
-  );
+function useGenresPaginated({ parameters }: UseGenresPaginatedProperties) {
+  const dispatch = useAppDispatch();
+  const { items, meta } = useAppSelector((state) => state.genresPaginated);
+
+  const { isLoading, error } = useQuery({
+    queryKey: ["genres-paginated", parameters],
+    queryFn: async () => {
+      const loadPaginatedGenres = makeRemoteLoadPaginatedGenres();
+      const response = await loadPaginatedGenres.loadPaginated(parameters);
+
+      dispatch(genresPaginatedSlice.actions.setGenresPaginated(response));
+
+      return response;
+    },
+    staleTime: 1000 * 60 * 10,
+  });
 
   return {
     genres: items,
     genresMeta: meta,
     isLoading,
     error,
-    getUsersPaginated,
   };
 }
 

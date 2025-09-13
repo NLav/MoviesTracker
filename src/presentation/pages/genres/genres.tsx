@@ -19,7 +19,7 @@ import { GenreCard, GenreCardSkeleton } from "./components";
 function renderGenres(
   genres: LoadPaginatedGenresModel["items"],
   isLoading: boolean,
-  error?: string
+  errorMessage?: string
 ) {
   const gridClassname =
     "grid gap-2 overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4";
@@ -35,7 +35,7 @@ function renderGenres(
     );
   }
 
-  if (error) {
+  if (errorMessage) {
     return <ListError />;
   }
 
@@ -61,17 +61,14 @@ function Genres() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { error, genres, genresMeta, getUsersPaginated, isLoading } =
-    useGenresPaginated();
-
-  useEffect(() => {
-    getUsersPaginated(paginationParameters);
-  }, [getUsersPaginated, paginationParameters]);
+  const { error, genres, genresMeta, isLoading } = useGenresPaginated({
+    parameters: paginationParameters,
+  });
 
   useEffect(() => {
     if (error) {
       toast({
-        message: error,
+        message: error.message,
         variant: "error",
       });
     }
@@ -99,7 +96,7 @@ function Genres() {
         value={searchValue}
       />
 
-      {renderGenres(genres, isLoading, error)}
+      {renderGenres(genres, isLoading, error?.message)}
 
       {genres.length > 0 && genresMeta ? (
         <div className="mt-auto">
