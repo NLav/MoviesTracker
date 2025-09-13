@@ -25,7 +25,7 @@ type ContextMenuProperties = {
 } & Pick<ButtonHTMLAttributes<HTMLButtonElement>, "className">;
 
 const contextMenuItemStyle = tv({
-  base: "cursor-pointer p-1 text-start transition first:rounded-t-md last:rounded-b-md",
+  base: "cursor-pointer px-2 py-1 text-start transition first:rounded-t-md last:rounded-b-md",
   variants: {
     variant: {
       default: "hover:bg-neutral-300 dark:hover:bg-neutral-700",
