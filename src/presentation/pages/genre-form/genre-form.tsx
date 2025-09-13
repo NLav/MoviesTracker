@@ -5,12 +5,24 @@ import { useNavigate } from "react-router-dom";
 
 import { makeRemoteCreateGenre } from "@/main/factories/usecases";
 import { Button, Input, PageHeader } from "@/presentation/components";
-import { useToast } from "@/presentation/hooks";
+import {
+  useAppSelector,
+  useGenresPaginated,
+  useToast,
+} from "@/presentation/hooks";
 import { type NewGenreProperties, NewGenreSchema } from "@/validation/models";
 
 function GenreForm() {
+  const { parameters: genresPaginationParameters } = useAppSelector(
+    (state) => state.genresPaginated
+  );
+
   const navigate = useNavigate();
   const toast = useToast();
+
+  const { genresRefetch } = useGenresPaginated({
+    parameters: genresPaginationParameters,
+  });
 
   const { control: newGenreControl, handleSubmit: newGenreHandleSubmit } =
     useForm<NewGenreProperties>({
@@ -31,6 +43,8 @@ function GenreForm() {
       createGenre
         .create(newGenreData)
         .then((createdGenre) => {
+          genresRefetch();
+
           toast({
             message: `Novo gênero "${createdGenre.name}" criado`,
             variant: "success",

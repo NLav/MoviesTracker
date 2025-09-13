@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 import { genresPaginatedSlice } from "@/data/slices";
 import type { LoadPaginatedGenresParameters } from "@/domain/usecases/genres";
@@ -13,24 +14,29 @@ function useGenresPaginated({ parameters }: UseGenresPaginatedProperties) {
   const dispatch = useAppDispatch();
   const { items, meta } = useAppSelector((state) => state.genresPaginated);
 
-  const { isLoading, error } = useQuery({
+  const { error, data, isLoading, isRefetching, refetch } = useQuery({
     queryKey: ["genres-paginated", parameters],
     queryFn: async () => {
       const loadPaginatedGenres = makeRemoteLoadPaginatedGenres();
       const response = await loadPaginatedGenres.loadPaginated(parameters);
-
-      dispatch(genresPaginatedSlice.actions.setGenresPaginated(response));
 
       return response;
     },
     staleTime: 1000 * 60 * 10,
   });
 
+  useEffect(() => {
+    if (data) {
+      dispatch(genresPaginatedSlice.actions.setGenresPaginated(data));
+    }
+  }, [data, dispatch]);
+
   return {
     genres: items,
+    genresError: error,
     genresMeta: meta,
-    isLoading,
-    error,
+    genresRefetch: refetch,
+    isGenresLoading: isLoading || isRefetching,
   };
 }
 
