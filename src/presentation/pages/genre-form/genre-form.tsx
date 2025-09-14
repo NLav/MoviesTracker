@@ -1,28 +1,69 @@
-import { type Control, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 
+import type { CreateGenre } from "@/domain/usecases/genres";
 import { Button, Input, PageHeader } from "@/presentation/components";
+import { useToast } from "@/presentation/contexts";
 import type { GenreFormType } from "@/validation/models";
+import { GenreFormSchema } from "@/validation/models";
 
 type GenreFormProperties = {
-  genreId?: string;
-  handleGoBack: () => void;
-  genreControl: Control<GenreFormType>;
-  onSubmit: () => void;
+  createGenre: CreateGenre;
 };
 
-function GenreForm({
-  genreId,
-  handleGoBack,
-  genreControl,
-  onSubmit,
-}: GenreFormProperties) {
+function GenreForm({ createGenre }: GenreFormProperties) {
+  const navigate = useNavigate();
+  const toast = useToast();
+  const queryClient = useQueryClient();
+
+  const { genreId } = useParams();
+
+  const { control: genreControl, handleSubmit: genreHandleSubmit } =
+    useForm<GenreFormType>({
+      defaultValues: {
+        name: undefined,
+      },
+      resolver: zodResolver(GenreFormSchema),
+    });
+
+  const handleGoBack = useCallback(() => {
+    navigate("/genres");
+  }, [navigate]);
+
+  const handleSuccess = useCallback(
+    (genreData: GenreFormType) => {
+      createGenre
+        .execute(genreData)
+        .then((createdGenre) => {
+          queryClient.invalidateQueries();
+
+          toast({
+            message: `Novo gênero "${createdGenre.name}" criado`,
+            variant: "success",
+          });
+
+          handleGoBack();
+        })
+        .catch(() => {
+          toast({
+            message: "Erro ao criar o gênero",
+            variant: "error",
+          });
+        });
+    },
+    [handleGoBack, queryClient, toast]
+  );
+
   return (
     <div className="flex w-full flex-col gap-6">
       <PageHeader title={`${genreId ? "Editar" : "Criar"} gênero`} />
 
       <form
         className="flex w-full flex-col gap-4 rounded-md p-4"
-        onSubmit={onSubmit}
+        onSubmit={genreHandleSubmit(handleSuccess)}
       >
         <Controller
           control={genreControl}

@@ -1,7 +1,7 @@
 import { MainLayout } from "@/presentation/layouts";
 
-function MakeMainLayout() {
+function makeMainLayout() {
   return <MainLayout />;
 }
 
-export { MakeMainLayout };
+export { makeMainLayout };

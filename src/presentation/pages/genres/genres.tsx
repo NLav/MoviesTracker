@@ -1,9 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import type { PaginationMeta, PaginationParameters } from "@/data/dtos";
 import { genresPaginatedSlice } from "@/data/slices";
-import type { GenreModel } from "@/domain/models";
 import type { LoadPaginatedGenresModel } from "@/domain/usecases/genres";
 import {
   Button,
@@ -13,18 +11,15 @@ import {
   PageHeader,
   Pagination,
 } from "@/presentation/components";
-import { useAppDispatch } from "@/presentation/hooks";
+import { useToast } from "@/presentation/contexts";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useGenresPaginated,
+} from "@/presentation/hooks";
 import { searchDelay } from "@/shared/constants";
 
 import { GenreCard, GenreCardSkeleton } from "./components";
-
-type GenresProperties = {
-  genres: GenreModel[];
-  genresError: Error | null;
-  genresMeta?: PaginationMeta;
-  genresPaginationParameters: PaginationParameters;
-  isGenresLoading: boolean;
-};
 
 function renderGenres(
   genres: LoadPaginatedGenresModel["items"],
@@ -60,17 +55,30 @@ function renderGenres(
   );
 }
 
-function Genres({
-  genres,
-  genresError,
-  genresMeta,
-  genresPaginationParameters,
-  isGenresLoading,
-}: GenresProperties) {
+function Genres() {
   const [searchValue, setSearchValue] = useState<string>("");
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const toast = useToast();
+
+  const { parameters: genresPaginationParameters } = useAppSelector(
+    (state) => state.genresPaginated
+  );
+
+  const { genres, genresError, genresMeta, isGenresLoading } =
+    useGenresPaginated({
+      parameters: genresPaginationParameters,
+    });
+
+  useEffect(() => {
+    if (genresError) {
+      toast({
+        message: genresError.message,
+        variant: "error",
+      });
+    }
+  }, [genresError, toast]);
 
   return (
     <div className="flex w-full flex-col gap-6">
