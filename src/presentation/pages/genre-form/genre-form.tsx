@@ -1,29 +1,31 @@
 import { type Control, Controller } from "react-hook-form";
 
 import { Button, Input, PageHeader } from "@/presentation/components";
-import type { NewGenreProperties } from "@/validation/models";
+import type { GenreFormType } from "@/validation/models";
 
 type GenreFormProperties = {
+  genreId?: string;
   handleGoBack: () => void;
-  newGenreControl: Control<NewGenreProperties>;
+  genreControl: Control<GenreFormType>;
   onSubmit: () => void;
 };
 
 function GenreForm({
+  genreId,
   handleGoBack,
-  newGenreControl,
+  genreControl,
   onSubmit,
 }: GenreFormProperties) {
   return (
     <div className="flex w-full flex-col gap-6">
-      <PageHeader title="Novo gênero" />
+      <PageHeader title={`${genreId ? "Editar" : "Criar"} gênero`} />
 
       <form
         className="flex w-full flex-col gap-4 rounded-md p-4"
         onSubmit={onSubmit}
       >
         <Controller
-          control={newGenreControl}
+          control={genreControl}
           name="name"
           render={({ field: { value, onChange }, fieldState: { error } }) => (
             <Input

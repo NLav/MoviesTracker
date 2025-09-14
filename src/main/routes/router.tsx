@@ -33,6 +33,10 @@ const router = createBrowserRouter([
             path: "new",
             element: <MakeGenreFormPage />,
           },
+          {
+            path: ":genreId",
+            element: <MakeGenreFormPage />,
+          },
         ],
       },
       {

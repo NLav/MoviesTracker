@@ -7,21 +7,21 @@ const GenreSchema = z.object({
   updatedAt: z.coerce.date(),
   deletedAt: z.coerce.date().nullable(),
 });
-type GenreProperties = z.infer<typeof GenreSchema>;
+type GenreType = z.infer<typeof GenreSchema>;
 
-export const NewGenreSchema = z.object({
+export const GenreFormSchema = z.object({
   name: z.string(),
 });
-export type NewGenreProperties = z.infer<typeof NewGenreSchema>;
+export type GenreFormType = z.infer<typeof GenreFormSchema>;
 
-export class Genre implements GenreProperties {
+export class Genre implements GenreType {
   id: string;
   name: string;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date | null;
 
-  constructor(properties: GenreProperties) {
+  constructor(properties: GenreType) {
     const parsedProperties = GenreSchema.parse(properties);
 
     this.id = parsedProperties.id;
@@ -31,7 +31,7 @@ export class Genre implements GenreProperties {
     this.deletedAt = parsedProperties.deletedAt;
   }
 
-  static with(genre: GenreProperties): Genre {
+  static with(genre: GenreType): Genre {
     return new Genre(genre);
   }
 }

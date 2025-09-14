@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 import type { GenreModel } from "@/domain/models";
 import { makeRemoteDeleteGenre } from "@/main/factories/usecases";
@@ -12,8 +13,9 @@ type GenreCardProperties = {
 };
 
 function GenreCard({ genreDetails }: GenreCardProperties) {
-  const toast = useToast();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   const handleDeleteGenre = useCallback(() => {
     const deleteGenre = makeRemoteDeleteGenre();
@@ -45,7 +47,12 @@ function GenreCard({ genreDetails }: GenreCardProperties) {
         <ContextMenu
           className="ml-auto"
           items={[
-            { action: () => {}, label: "Editar" },
+            {
+              action: () => {
+                navigate(`/genres/${genreDetails.id}`);
+              },
+              label: "Editar",
+            },
             {
               action: () => {
                 handleDeleteGenre();

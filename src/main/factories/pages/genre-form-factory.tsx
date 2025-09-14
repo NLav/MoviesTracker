@@ -2,25 +2,26 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
+import { makeRemoteCreateGenre } from "@/main/factories/usecases";
 import { useToast } from "@/presentation/contexts";
 import { GenreForm } from "@/presentation/pages";
-import { type NewGenreProperties, NewGenreSchema } from "@/validation/models";
-
-import { makeRemoteCreateGenre } from "../usecases";
+import { GenreFormSchema, type GenreFormType } from "@/validation/models";
 
 function MakeGenreFormPage() {
   const navigate = useNavigate();
   const toast = useToast();
   const queryClient = useQueryClient();
 
-  const { control: newGenreControl, handleSubmit: newGenreHandleSubmit } =
-    useForm<NewGenreProperties>({
+  const { genreId } = useParams();
+
+  const { control: genreControl, handleSubmit: genreHandleSubmit } =
+    useForm<GenreFormType>({
       defaultValues: {
         name: undefined,
       },
-      resolver: zodResolver(NewGenreSchema),
+      resolver: zodResolver(GenreFormSchema),
     });
 
   const handleGoBack = useCallback(() => {
@@ -28,11 +29,11 @@ function MakeGenreFormPage() {
   }, [navigate]);
 
   const handleSuccess = useCallback(
-    (newGenreData: NewGenreProperties) => {
+    (genreData: GenreFormType) => {
       const createGenre = makeRemoteCreateGenre();
 
       createGenre
-        .execute(newGenreData)
+        .execute(genreData)
         .then((createdGenre) => {
           queryClient.invalidateQueries();
 
@@ -55,9 +56,10 @@ function MakeGenreFormPage() {
 
   return (
     <GenreForm
+      genreControl={genreControl}
+      genreId={genreId}
       handleGoBack={handleGoBack}
-      newGenreControl={newGenreControl}
-      onSubmit={newGenreHandleSubmit(handleSuccess)}
+      onSubmit={genreHandleSubmit(handleSuccess)}
     />
   );
 }
