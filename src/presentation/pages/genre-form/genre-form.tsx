@@ -1,14 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { genresPaginatedSlice } from "@/data/slices";
 import type { CreateGenre, UpdateGenre } from "@/domain/usecases/genres";
 import { Button, Input, PageHeader } from "@/presentation/components";
 import { useToast } from "@/presentation/contexts";
-import { useAppDispatch, useAppSelector } from "@/presentation/hooks";
 import type { GenreFormType } from "@/validation/models";
 import { GenreFormSchema } from "@/validation/models";
 
@@ -18,16 +15,10 @@ type GenreFormProperties = {
 };
 
 function GenreForm({ createGenre, updateGenre }: GenreFormProperties) {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const toast = useToast();
 
   const { genreId } = useParams();
-
-  const { items: genres, meta: genresMeta } = useAppSelector(
-    (state) => state.genresPaginated
-  );
 
   const { control: genreControl, handleSubmit: genreHandleSubmit } =
     useForm<GenreFormType>({
@@ -44,25 +35,12 @@ function GenreForm({ createGenre, updateGenre }: GenreFormProperties) {
   const handleSuccess = useCallback(
     async (genreData: GenreFormType) => {
       try {
-        if (genreId) {
-          const updatedGenre = await updateGenre.execute({
-            id: genreId,
-            ...genreData,
-          });
-
-          dispatch(
-            genresPaginatedSlice.actions.setGenresPaginated({
-              items: genres.map((genre) =>
-                genre.id === genreId ? updatedGenre : genre
-              ),
-              meta: genresMeta!,
+        await (genreId
+          ? updateGenre.execute({
+              id: genreId,
+              ...genreData,
             })
-          );
-        } else {
-          await createGenre.execute(genreData);
-
-          queryClient.invalidateQueries();
-        }
+          : createGenre.execute(genreData));
 
         toast({
           message: genreId
@@ -81,7 +59,7 @@ function GenreForm({ createGenre, updateGenre }: GenreFormProperties) {
         });
       }
     },
-    [createGenre, genreId, handleGoBack, queryClient, toast, updateGenre]
+    [createGenre, genreId, handleGoBack, toast, updateGenre]
   );
 
   return (

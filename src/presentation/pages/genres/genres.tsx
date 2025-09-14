@@ -74,7 +74,7 @@ function Genres() {
   useEffect(() => {
     if (genresError) {
       toast({
-        message: genresError.message,
+        message: genresError,
         variant: "error",
       });
     }
@@ -102,7 +102,7 @@ function Genres() {
         value={searchValue}
       />
 
-      {renderGenres(genres, isGenresLoading, genresError?.message)}
+      {renderGenres(genres, isGenresLoading, genresError)}
 
       {genres.length > 0 && genresMeta ? (
         <div className="mt-auto">

@@ -1,1 +1,1 @@
-export * from "./genres-paginated-slice";
+export * from "./genres";
