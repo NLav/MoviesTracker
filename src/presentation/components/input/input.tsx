@@ -1,36 +1,22 @@
-import { type InputHTMLAttributes, useState } from "react";
-import { type DebouncedState } from "usehooks-ts";
+import { type InputHTMLAttributes, useCallback, useState } from "react";
 
+import { SkeletonBlock } from "@/presentation/components";
 import { useDebounceCallback } from "@/presentation/hooks";
 
 type InputProperties = {
   delay?: number;
   errorMessage?: string;
+  isLoading?: boolean;
   onChange: NonNullable<InputHTMLAttributes<HTMLInputElement>["onChange"]>;
   title?: string;
   value: InputHTMLAttributes<HTMLInputElement>["value"];
 } & Pick<InputHTMLAttributes<HTMLInputElement>, "disabled" | "placeholder">;
 
-function handleChange(
-  event: React.ChangeEvent<HTMLInputElement>,
-  delay: InputProperties["delay"],
-  onChange: InputProperties["onChange"],
-  debouncedOnChange: DebouncedState<React.ChangeEventHandler<HTMLInputElement>>,
-  setLocalValue: React.Dispatch<React.SetStateAction<InputProperties["value"]>>
-) {
-  setLocalValue(event.target.value);
-
-  if (delay) {
-    debouncedOnChange(event);
-  } else {
-    onChange(event);
-  }
-}
-
 function Input({
   delay,
   disabled,
   errorMessage,
+  isLoading,
   onChange,
   placeholder,
   title,
@@ -42,20 +28,35 @@ function Input({
 
   const debouncedOnChange = useDebounceCallback(onChange, delay);
 
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setLocalValue(event.target.value);
+
+      if (delay) {
+        debouncedOnChange(event);
+      } else {
+        onChange(event);
+      }
+    },
+    [debouncedOnChange, delay, onChange]
+  );
+
   return (
-    <div>
+    <div className="flex flex-col">
       {title ? <label htmlFor={title}>{title}</label> : undefined}
 
-      <input
-        className="border-primary w-full rounded-lg border-2 px-2 py-1 disabled:cursor-not-allowed disabled:bg-neutral-200"
-        disabled={disabled}
-        id={title}
-        onChange={(event) =>
-          handleChange(event, delay, onChange, debouncedOnChange, setLocalValue)
-        }
-        placeholder={placeholder}
-        value={localValue}
-      />
+      {isLoading ? (
+        <SkeletonBlock className="h-9 w-full" />
+      ) : (
+        <input
+          className="border-primary w-full rounded-lg border-2 px-2 py-1 disabled:cursor-not-allowed disabled:bg-neutral-200"
+          disabled={disabled}
+          id={title}
+          onChange={handleChange}
+          placeholder={placeholder}
+          value={localValue}
+        />
+      )}
 
       {errorMessage ? (
         <span className="text-xs text-red-500">Campo obrigatório</span>

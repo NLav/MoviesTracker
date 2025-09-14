@@ -1,23 +1,15 @@
 import classNames from "classnames";
+import type { AllHTMLAttributes } from "react";
 
 type SkeletonBlockProperties = {
-  heightClassname: string;
-  widthClassname: string;
-  extraClassname?: string;
+  className: NonNullable<AllHTMLAttributes<HTMLDivElement>["className"]>;
 };
-
-function SkeletonBlock({
-  heightClassname,
-  widthClassname,
-  extraClassname,
-}: SkeletonBlockProperties) {
+function SkeletonBlock({ className }: SkeletonBlockProperties) {
   return (
     <span
       className={classNames(
-        "rounded-md bg-neutral-100",
-        heightClassname,
-        widthClassname,
-        extraClassname
+        "animate-pulse rounded-md bg-neutral-500",
+        className
       )}
     />
   );
