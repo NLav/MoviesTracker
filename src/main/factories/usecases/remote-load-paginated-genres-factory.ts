@@ -3,7 +3,7 @@ import { type LoadPaginatedGenres } from "@/domain/usecases/genres";
 import { makeAxiosHttpClient } from "@/main/factories/http";
 
 function makeRemoteLoadPaginatedGenres(): LoadPaginatedGenres {
-  return new RemoteLoadPaginatedGenres("/genres", makeAxiosHttpClient());
+  return new RemoteLoadPaginatedGenres(makeAxiosHttpClient());
 }
 
 export { makeRemoteLoadPaginatedGenres };

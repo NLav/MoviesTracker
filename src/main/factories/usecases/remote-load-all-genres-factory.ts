@@ -3,7 +3,7 @@ import type { LoadAllGenres } from "@/domain/usecases/genres";
 import { makeAxiosHttpClient } from "@/main/factories/http";
 
 function makeRemoteLoadAllGenres(): LoadAllGenres {
-  return new RemoteLoadAllGenres("/genres", makeAxiosHttpClient());
+  return new RemoteLoadAllGenres(makeAxiosHttpClient());
 }
 
 export { makeRemoteLoadAllGenres };

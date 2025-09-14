@@ -8,14 +8,11 @@ import type {
 import { Genre } from "@/validation/models";
 
 export class RemoteCreateGenre implements CreateGenre {
-  constructor(
-    private readonly url: string,
-    private readonly httpClient: HttpClient
-  ) {}
+  constructor(private readonly httpClient: HttpClient) {}
 
   async execute(data: CreateGenreData): Promise<CreateGenreModel> {
     const httpResponse = await this.httpClient.request({
-      url: this.url,
+      url: "/genres",
       method: "POST",
       body: data,
     });

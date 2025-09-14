@@ -8,14 +8,11 @@ import type {
 import { Genre } from "@/validation/models";
 
 export class RemoteDeleteGenre implements DeleteGenre {
-  constructor(
-    private readonly url: string,
-    private readonly httpClient: HttpClient
-  ) {}
+  constructor(private readonly httpClient: HttpClient) {}
 
   async execute(parameters: DeleteGenreParameters): Promise<DeleteGenreModel> {
     const httpResponse = await this.httpClient.request({
-      url: this.url + `/${parameters.id}`,
+      url: `/genres/${parameters.id}`,
       method: "DELETE",
     });
 

@@ -7,16 +7,13 @@ import type {
 } from "@/domain/usecases/genres";
 
 export class RemoteLoadPaginatedGenres implements LoadPaginatedGenres {
-  constructor(
-    private readonly url: string,
-    private readonly httpClient: HttpClient
-  ) {}
+  constructor(private readonly httpClient: HttpClient) {}
 
   async execute(
     parameters: LoadPaginatedGenresParameters
   ): Promise<LoadPaginatedGenresModel> {
     const httpResponse = await this.httpClient.request({
-      url: this.url,
+      url: "/genres",
       method: "GET",
       parameters,
     });

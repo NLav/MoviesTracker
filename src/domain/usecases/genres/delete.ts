@@ -1,7 +1,7 @@
 import type { GenreModel } from "@/domain/models";
 
 export type DeleteGenre = {
-  execute: (data: DeleteGenreParameters) => Promise<DeleteGenreModel>;
+  execute: (parameters: DeleteGenreParameters) => Promise<DeleteGenreModel>;
 };
 
 export type DeleteGenreParameters = Pick<GenreModel, "id">;

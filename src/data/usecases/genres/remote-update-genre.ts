@@ -8,16 +8,13 @@ import type {
 import { Genre } from "@/validation/models";
 
 export class RemoteUpdateGenre implements UpdateGenre {
-  constructor(
-    private readonly url: string,
-    private readonly httpClient: HttpClient
-  ) {}
+  constructor(private readonly httpClient: HttpClient) {}
 
   async execute(data: UpdateGenreData): Promise<UpdateGenreModel> {
-    const { id, ...updatedGenreData } = data;
+    const { id: genreId, ...updatedGenreData } = data;
 
     const httpResponse = await this.httpClient.request({
-      url: this.url + `/${id}`,
+      url: `/genres/${genreId}`,
       method: "PUT",
       body: updatedGenreData,
     });
@@ -25,7 +22,7 @@ export class RemoteUpdateGenre implements UpdateGenre {
     const createdGenre = new Genre(httpResponse.body);
 
     switch (httpResponse.statusCode) {
-      case HttpStatusCode.created: {
+      case HttpStatusCode.ok: {
         return createdGenre;
       }
       default: {
