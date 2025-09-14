@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import type { GenreModel } from "@/domain/models";
 import { makeRemoteDeleteGenre } from "@/main/factories/usecases";
 import { ContextMenu } from "@/presentation/components/context-menu";
-import { useToast } from "@/presentation/hooks";
+import { useToast } from "@/presentation/contexts";
 import { formatDate } from "@/shared/utils";
 
 type GenreCardProperties = {

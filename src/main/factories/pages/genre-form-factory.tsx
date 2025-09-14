@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { useToast } from "@/presentation/hooks";
+import { useToast } from "@/presentation/contexts";
 import { GenreForm } from "@/presentation/pages";
 import { type NewGenreProperties, NewGenreSchema } from "@/validation/models";
 

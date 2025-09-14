@@ -2,6 +2,7 @@ import {
   createContext,
   type ReactNode,
   useCallback,
+  useContext,
   useMemo,
   useState,
 } from "react";
@@ -21,20 +22,23 @@ function ToastProvider({ children }: { children: ReactNode }) {
     []
   );
 
-  const addToast = useCallback((newToast: ToastProperties) => {
-    const id = String(new Date().getMilliseconds());
-
-    setToasts((current) => [...current, { id, ...newToast }]);
-    setTimeout(() => removeToast(id), toastTimeout);
+  const removeToast = useCallback((id: string) => {
+    setToasts((current) => current.filter((toast) => toast.id !== id));
   }, []);
 
-  const removeToast = (id: string) => {
-    setToasts((current) => current.filter((toast) => toast.id !== id));
-  };
+  const addToast = useCallback(
+    (newToast: ToastProperties) => {
+      const id = String(new Date().getMilliseconds());
+
+      setToasts((current) => [...current, { id, ...newToast }]);
+      setTimeout(() => removeToast(id), toastTimeout);
+    },
+    [removeToast]
+  );
 
   const contextValue = useMemo(
     () => ({ toasts, addToast, removeToast }),
-    [addToast, toasts]
+    [addToast, removeToast, toasts]
   );
 
   return (
@@ -54,4 +58,13 @@ function ToastProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export { ToastContext, ToastProvider };
+function useToast() {
+  const context = useContext(ToastContext);
+
+  if (!context) throw new Error("useToast must be used within ToastProvider");
+
+  return context.addToast;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export { ToastContext, ToastProvider, useToast };

@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 
-import {
-  useAppSelector,
-  useGenresPaginated,
-  useToast,
-} from "@/presentation/hooks";
+import { useToast } from "@/presentation/contexts";
+import { useAppSelector, useGenresPaginated } from "@/presentation/hooks";
 import { Genres } from "@/presentation/pages";
 
 function MakeGenrePage() {
