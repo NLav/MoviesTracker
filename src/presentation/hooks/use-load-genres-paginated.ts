@@ -1,19 +1,12 @@
 import { useCallback, useEffect } from "react";
 
 import { getGenresPaginated } from "@/data/slices/genres/thunks";
-import type { LoadPaginatedGenresParameters } from "@/domain/usecases/genres";
 import { useAppDispatch, useAppSelector } from "@/presentation/hooks";
 
-type UseLoadGenresPaginatedProperties = {
-  parameters: LoadPaginatedGenresParameters;
-};
-
-function useLoadGenresPaginated({
-  parameters,
-}: UseLoadGenresPaginatedProperties) {
+function useLoadGenresPaginated() {
   const dispatch = useAppDispatch();
 
-  const { isLoading, items, error, meta } = useAppSelector(
+  const { isLoading, items, parameters, error, meta } = useAppSelector(
     (state) => state.genresLoadPaginated
   );
 
@@ -29,6 +22,7 @@ function useLoadGenresPaginated({
     genres: items,
     genresError: error,
     genresMeta: meta,
+    genresPaginationParameters: parameters,
     isGenresLoading: isLoading,
   };
 }

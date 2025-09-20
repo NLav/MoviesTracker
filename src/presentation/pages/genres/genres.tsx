@@ -12,11 +12,7 @@ import {
   Pagination,
 } from "@/presentation/components";
 import { useToast } from "@/presentation/contexts";
-import {
-  useAppDispatch,
-  useAppSelector,
-  useLoadGenresPaginated,
-} from "@/presentation/hooks";
+import { useAppDispatch, useLoadGenresPaginated } from "@/presentation/hooks";
 import { searchDelay } from "@/shared/constants";
 
 import { GenreCard, GenreCardSkeleton } from "./components";
@@ -62,14 +58,13 @@ function Genres() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { parameters: genresPaginationParameters } = useAppSelector(
-    (state) => state.genresLoadPaginated
-  );
-
-  const { genres, genresError, genresMeta, isGenresLoading } =
-    useLoadGenresPaginated({
-      parameters: genresPaginationParameters,
-    });
+  const {
+    genres,
+    genresError,
+    genresMeta,
+    genresPaginationParameters,
+    isGenresLoading,
+  } = useLoadGenresPaginated();
 
   useEffect(() => {
     if (genresError) {
