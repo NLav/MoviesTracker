@@ -18,7 +18,7 @@ function GenreCard({ genreDetails }: GenreCardProperties) {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const { parameters } = useAppSelector((state) => state.genresPaginated);
+  const { parameters } = useAppSelector((state) => state.genresLoadPaginated);
 
   const handleDeleteGenre = useCallback(async () => {
     const deleteGenre = makeRemoteDeleteGenre();

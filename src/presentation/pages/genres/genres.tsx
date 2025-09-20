@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { genresPaginatedSlice } from "@/data/slices";
+import { genresLoadPaginatedSlice } from "@/data/slices";
 import type { LoadPaginatedGenresModel } from "@/domain/usecases/genres";
 import {
   Button,
@@ -15,7 +15,7 @@ import { useToast } from "@/presentation/contexts";
 import {
   useAppDispatch,
   useAppSelector,
-  useGenresPaginated,
+  useLoadGenresPaginated,
 } from "@/presentation/hooks";
 import { searchDelay } from "@/shared/constants";
 
@@ -63,11 +63,11 @@ function Genres() {
   const toast = useToast();
 
   const { parameters: genresPaginationParameters } = useAppSelector(
-    (state) => state.genresPaginated
+    (state) => state.genresLoadPaginated
   );
 
   const { genres, genresError, genresMeta, isGenresLoading } =
-    useGenresPaginated({
+    useLoadGenresPaginated({
       parameters: genresPaginationParameters,
     });
 
@@ -111,7 +111,7 @@ function Genres() {
             currentPage={genresPaginationParameters.page}
             handleChangeLimit={(newLimit) => {
               dispatch(
-                genresPaginatedSlice.actions.setGenresParameters({
+                genresLoadPaginatedSlice.actions.setGenresParameters({
                   ...genresPaginationParameters,
                   limit: newLimit,
                   page: 1,
@@ -120,7 +120,7 @@ function Genres() {
             }}
             handleChangePage={(newPage) => {
               dispatch(
-                genresPaginatedSlice.actions.setGenresParameters({
+                genresLoadPaginatedSlice.actions.setGenresParameters({
                   ...genresPaginationParameters,
                   page: newPage,
                 })

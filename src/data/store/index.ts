@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { genresPaginatedSlice } from "@/data/slices";
+import { genresLoadOneSlice, genresLoadPaginatedSlice } from "@/data/slices";
 
 export const store = configureStore({
   reducer: {
-    genresPaginated: genresPaginatedSlice.reducer,
+    genresLoadPaginated: genresLoadPaginatedSlice.reducer,
+    genresLoadOne: genresLoadOneSlice.reducer,
   },
 });
 

@@ -24,13 +24,12 @@ const initialState: GenresPaginatedState = {
   },
 };
 
-const genresPaginatedSlice = createSlice({
-  name: "genres-paginated",
+const genresLoadPaginatedSlice = createSlice({
+  name: "load-genres-paginated",
   initialState,
   reducers: {
-    setGenresPaginated(state, action: PayloadAction<LoadPaginatedGenresModel>) {
-      state.items = action.payload.items;
-      state.meta = action.payload.meta;
+    setGenres(state, action: PayloadAction<LoadPaginatedGenresModel["items"]>) {
+      state.items = action.payload;
     },
     setGenresParameters(
       state,
@@ -57,4 +56,4 @@ const genresPaginatedSlice = createSlice({
   },
 });
 
-export { genresPaginatedSlice };
+export { genresLoadPaginatedSlice };
