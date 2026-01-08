@@ -7,6 +7,8 @@ export type LoadPaginatedGenres = {
   ) => Promise<LoadPaginatedGenresModel>;
 };
 
-export type LoadPaginatedGenresParameters = PaginationParameters;
+export type LoadPaginatedGenresParameters = PaginationParameters & {
+  searchValue?: string;
+};
 
 export type LoadPaginatedGenresModel = Pagination<GenreModel>;

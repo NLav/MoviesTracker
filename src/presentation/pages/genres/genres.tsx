@@ -91,7 +91,17 @@ function Genres() {
       <Input
         delay={searchDelay}
         disabled={isGenresLoading}
-        onChange={(event) => setSearchValue(event.target.value)}
+        onChange={(event) => {
+          const searchValue = event.target.value;
+
+          setSearchValue(searchValue);
+          dispatch(
+            genresLoadPaginatedSlice.actions.setGenresParameters({
+              ...genresPaginationParameters,
+              searchValue,
+            })
+          );
+        }}
         placeholder="Insira a pesquisa"
         title="Pesquisa"
         value={searchValue}
