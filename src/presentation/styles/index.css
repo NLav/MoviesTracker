@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-default: Verdana, Geneva, Tahoma, sans-serif;
+  --font-default: Roboto;
 
   --color-primary-50: #eef0fb;
   --color-primary-100: #dcdff7;
